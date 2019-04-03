@@ -1,13 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/views/HomePage.dart';
+
 
 class WelcomePage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => WelcomePageState();
 }
+
 
 class WelcomePageState extends State<WelcomePage> {
 
@@ -27,7 +27,7 @@ class WelcomePageState extends State<WelcomePage> {
     super.initState();
     timer = new Timer(duration, (){
       try {
-           Navigator.of(context).pushNamedAndRemoveUntil('/homePage', (route) => route == null);
+           Navigator.of(context).pushNamedAndRemoveUntil('/index', (route) => route == null);
       } catch (e) {
       }
     });
