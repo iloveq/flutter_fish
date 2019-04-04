@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fish/Application.dart';
 import 'package:flutter_fish/routers/Routers.dart';
 import 'package:flutter_fish/welcome/view/WelcomePage.dart';
 
 
-void main() => runApp(MyApp());
+void main() {
+  new Application().onCreate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
 
