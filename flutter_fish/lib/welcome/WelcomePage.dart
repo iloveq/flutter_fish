@@ -9,8 +9,8 @@ class WelcomePage extends StatefulWidget {
 
 class WelcomePageState extends State<WelcomePage> {
 
-  Duration duration = new Duration(milliseconds: 1500);
-  Timer timer;
+  final duration = new Duration(milliseconds: 1500);
+  var timer;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/views/MainPage.dart';
+import 'package:flutter_fish/main/views/MainPage.dart';
+
 
 class Routers{
 

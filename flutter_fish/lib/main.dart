@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fish/routers/Routers.dart';
-import 'package:flutter_fish/views/WelcomePage.dart';
+import 'package:flutter_fish/welcome/WelcomePage.dart';
+
 
 void main() => runApp(MyApp());
 
