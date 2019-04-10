@@ -1,0 +1,44 @@
+{
+  "bannerList": [
+    {
+      "title": "二手手机",
+      "iconUrl": ""
+    },
+    {
+      "title": "数码",
+      "iconUrl": ""
+    },
+    {
+      "title": "游戏交易",
+      "iconUrl": ""
+    },
+    {
+      "title": "二手图书",
+      "iconUrl": ""
+    },
+    {
+      "title": "家具电器",
+      "iconUrl": ""
+    },
+    {
+      "title": "服饰鞋包",
+      "iconUrl": ""
+    },
+    {
+      "title": "美妆捡漏",
+      "iconUrl": ""
+    },
+    {
+      "title": "二手车",
+      "iconUrl": ""
+    },
+    {
+      "title": "超值租",
+      "iconUrl": ""
+    },
+    {
+      "title": "全部分类",
+      "iconUrl": ""
+    }
+  ]
+}

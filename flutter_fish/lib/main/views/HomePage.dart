@@ -1,24 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
+import 'package:flutter_fish/main/model/wrapper/HomeCtx.dart';
 import 'package:flutter_fish/main/presenter/HomePresenter.dart';
 
-class HomePage extends StatefulWidget{
+class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomePageState();
 }
 
 /// **************************************************************/
 
-
-class HomePageState extends State<HomePage> implements View{
-
+class HomePageState extends State<HomePage> implements View {
   HomePresenter presenter;
+  HomeCtx homeCtx;
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
-      child: new Text('HomePage'),
-    );
+    return new ListView.builder(
+        itemCount: homeCtx.getBannerList().length,
+        itemBuilder: (context, index) {
+          return new ListTile(
+            title: new Text(homeCtx.bannerList.elementAt(index).getTitle()),
+          );
+        });
   }
 
   @override
@@ -46,7 +51,9 @@ class HomePageState extends State<HomePage> implements View{
 
   @override
   void renderPage(Object o) {
-    // TODO: implement renderPage
+    setState(() {
+      this.homeCtx = o;
+    });
   }
 
   @override
@@ -63,5 +70,4 @@ class HomePageState extends State<HomePage> implements View{
   void showLoading() {
     // TODO: implement showLoading
   }
-
 }
