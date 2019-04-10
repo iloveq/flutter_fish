@@ -1,19 +1,37 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
+import 'package:flutter_fish/main/presenter/HomePresenter.dart';
 
 class HomePage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => HomePageState();
 }
 
+/// **************************************************************/
+
 
 class HomePageState extends State<HomePage> implements View{
+
+  HomePresenter presenter;
 
   @override
   Widget build(BuildContext context) {
     return new Center(
       child: new Text('HomePage'),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    presenter = new HomePresenter(this);
+    presenter.getBannerList();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    presenter.stop();
   }
 
   @override
