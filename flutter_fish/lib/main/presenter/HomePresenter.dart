@@ -1,18 +1,21 @@
 import 'package:flutter_fish/common/mvp/BasePresenter.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
+import 'package:flutter_fish/main/model/HttpProxy.dart';
+import 'package:flutter_fish/main/model/bean/Banner.dart';
 
-class HomePresenter extends BasePresenter implements Presenter{
+class HomePresenter extends BasePresenter<View> implements Presenter{
 
-  HomePresenter(view) : super(view);
+  HomePresenter(View view) : super(view);
 
   @override
   void start() {
-    // TODO: implement start
   }
 
   @override
   void getBannerList() {
-    // TODO: implement getBannerList
+    HttpProxy.getBannerList().then((List<Banner> list){
+      view.renderPage(list);
+    }).catchError((e)=>view.showError(e.toString()));
   }
 
 
