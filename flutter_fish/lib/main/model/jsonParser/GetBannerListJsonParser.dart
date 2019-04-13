@@ -14,5 +14,4 @@ class GetBannerListJsonParser extends JsonParser{
     }
     return list;
   }
-
 }

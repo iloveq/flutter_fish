@@ -13,12 +13,15 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
 
   @override
   void getBannerList() async {
+    view.showLoading();
     HttpProxy.getBannerList().then((Response res) {
+      view.closeLoading();
       List<Banner> bannerList =
           new GetBannerListJsonParser().parse(res.data);
       view.renderPage(bannerList);
     }).catchError((e) {
-      print("e" + e.toString());
+      view.closeLoading();
+      view.showError(e.toString());
     });
   }
 }

@@ -2,6 +2,106 @@
 
 A new Flutter application.
 
+```
+
+npm install -g json-server
+
+json-server --port 2000 bannerList.json
+
+浏览器输入:
+
+<http://localhost:2000/bannerList>
+
+```
+
+Presenter:
+
+```
+class HomePresenter extends BasePresenter<View> implements Presenter {
+
+  HomePresenter(View view) : super(view);
+
+  @override
+  void start() {}
+
+  @override
+  void getBannerList() async {
+    view.showLoading();
+    HttpProxy.getBannerList().then((Response res) {
+      view.closeLoading();
+      List<Banner> bannerList = new GetBannerListJsonParser().parse(res.data);
+      view.renderPage(bannerList);
+    }).catchError((e) {
+      view.closeLoading();
+      view.showError(e.toString());
+    });
+  }
+}
+```
+JsonParser:
+
+```
+class GetBannerListJsonParser extends JsonParser{
+  @override
+  parse(String str) {
+    List<Banner> list = [];
+    List<dynamic> jsonArray = JsonCodec().decode(str);
+    for (Map map in jsonArray) {
+      var banner = new Banner(map["title"], map["iconUrl"]);
+      list.add(banner);
+    }
+    return list;
+  }
+}
+```
+
+
+HttpProxy:
+
+```
+static Future<Response> getBannerList() async {
+    return await HttpUtils.getInstance().req(HttpConstants.bannerList);
+  }
+  
+```
+
+
+HttpUtils:
+
+```
+Future<Response> req(String actionPath, {String method,int timeout,
+    Map<String, dynamic> header,
+    Map<String, dynamic> params,
+    Map<String, dynamic> body,
+    Transformer transformer,
+    List<Interceptor> interceptors}) {
+    try {
+      RequestCtx ctx = new Builder()
+          .setUrl(HttpConstants.serverAddress + actionPath)
+          .setMethod(method)
+          .setHeaderMap(header)
+          .setTimeout(timeout)
+          .setParams(params)
+          .setResponseType(ResponseType.plain)
+          .setBodyMap(body)
+          .setTransformer(transformer)
+          .setInterceptors(interceptors)
+          .build();
+      return HAdapter.get().request(ctx);
+      
+    } catch (e) {
+      print(e.toString());
+      rethrow;
+    }
+  }
+
+```
+
+
+
+
+
+
 ## Getting Started
 
 lib
