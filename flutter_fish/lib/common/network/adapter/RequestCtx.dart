@@ -14,6 +14,7 @@ class RequestCtx {
   int _timeout;
   ContentType _contentType;
   ResponseType _responseType;
+  Map<String, dynamic> _paramMap;
   Map<String, dynamic> _headerMap;
   Map<String, dynamic> _bodyMap;
   int _retryCount;
@@ -26,6 +27,7 @@ class RequestCtx {
     this._timeout = builder.timeout;
     this._contentType = builder.contentType;
     this._responseType = builder.responseType;
+    this._paramMap = builder.paramMap;
     this._headerMap = builder.headerMap;
     this._bodyMap = builder.bodyMap;
     this._retryCount = builder.retryCount;
@@ -42,6 +44,8 @@ class RequestCtx {
   ContentType get contentType => _contentType;
 
   ResponseType get responseType => _responseType;
+
+  Map<String, dynamic> get paramMap => _paramMap;
 
   Map<String, dynamic> get headerMap => _headerMap;
 
@@ -60,6 +64,7 @@ class Builder {
   int timeout;
   ContentType contentType;
   ResponseType responseType;
+  Map<String, dynamic> paramMap;
   Map<String, dynamic> headerMap;
   Map<String, dynamic> bodyMap;
   int retryCount;
@@ -88,6 +93,11 @@ class Builder {
 
   Builder setResponseType(ResponseType responseType) {
     this.responseType = responseType;
+    return this;
+  }
+
+  Builder setParams(Map<String, dynamic> paramMap) {
+    this.paramMap = paramMap;
     return this;
   }
 

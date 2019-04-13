@@ -1,7 +1,7 @@
 npm install -g json-server
 
-json-server bannerList.json
+json-server --port 2000 bannerList.json
 
 浏览器输入:
 
-http://localhost:3000/bannerList
+http://localhost:2000/bannerList

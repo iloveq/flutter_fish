@@ -13,7 +13,7 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
 
   @override
   void getBannerList() {
-    HttpProxy.getBannerList().then((Response<Object> bannerList) {
+    HttpProxy.getBannerList().then((Response<Null> bannerList) {
       //view.renderPage(bannerList);
       print(bannerList.data);
     }).catchError((e) => view.showError(e.toString()));

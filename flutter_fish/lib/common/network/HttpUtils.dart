@@ -18,7 +18,7 @@ class HttpUtils {
       RequestCtx ctx = new Builder()
           .setUrl(HttpConstants.serverAddress + actionPath)
           .setMethod(method)
-          .setResponseType(ResponseType.json)
+          .setResponseType(ResponseType.bytes)
           .setBodyMap(body)
           .build();
       HAdapter.get().request(ctx);

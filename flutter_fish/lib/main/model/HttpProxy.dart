@@ -7,7 +7,7 @@ import 'package:flutter_fish/main/model/bean/Banner.dart';
 class HttpProxy {
 
 
-  static Future<Response<Object>> getBannerList() async {
+  static Future<Response<Null>> getBannerList() async {
     return await HttpUtils.getInstance().req(HttpConstants.bannerList);
   }
 
