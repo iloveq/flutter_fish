@@ -23,7 +23,7 @@ class HAdapter {
     dio.options = new BaseOptions(
         connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
         receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        headers: ctx.headerMap,
+        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "HAdapter"}:ctx.headerMap,
         contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
         responseType: ctx.responseType == null ? ResponseType.json : ctx.responseType
     );
