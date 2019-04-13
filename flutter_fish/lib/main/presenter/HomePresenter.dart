@@ -12,7 +12,7 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
   void start() {}
 
   @override
-  void getBannerList() async {
+  void getBannerList(){
     view.showLoading();
     HttpProxy.getBannerList().then((Response res) {
       view.closeLoading();
