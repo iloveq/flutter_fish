@@ -20,8 +20,6 @@ class HAdapter {
 
     Future<Response<dynamic>> response;
 
-    assert(ctx.headerMap != null);
-
     dio.options = new BaseOptions(
         connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
         receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
