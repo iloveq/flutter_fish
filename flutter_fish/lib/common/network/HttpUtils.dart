@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_fish/common/constants/HttpConstants.dart';
 import 'package:flutter_fish/common/network/HAdapter.dart';
+import 'package:flutter_fish/common/network/RequestCtx.dart';
 
 class HttpUtils {
 
-  static final HttpUtils instance = new HttpUtils._internal();
+  static final HttpUtils _instance = new HttpUtils._internal();
 
-  static HttpUtils get() => instance;
+  static HttpUtils get() => _instance;
 
-  factory HttpUtils() => instance;
+  factory HttpUtils() => _instance;
 
   HttpUtils._internal();
 
