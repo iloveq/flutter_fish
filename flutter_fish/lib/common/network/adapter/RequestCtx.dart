@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 class HConstants {
   static final String get = "get";
   static final String post = "post";
+  static final int timeout = 15000;
 }
 
 class RequestCtx {
-
   String _url;
   String _method;
   int _timeout;
@@ -20,7 +20,7 @@ class RequestCtx {
   Transformer _transformer;
   List<Interceptor> _interceptors;
 
-  RequestCtx(final Builder builder){
+  RequestCtx(final Builder builder) {
     this._url = builder.url;
     this._method = builder.method;
     this._timeout = builder.timeout;
@@ -52,11 +52,9 @@ class RequestCtx {
   Transformer get transformer => _transformer;
 
   List<Interceptor> get interceptors => _interceptors;
-
 }
 
 class Builder {
-
   String url;
   String method;
   int timeout;
