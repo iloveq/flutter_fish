@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> implements View {
   HomePresenter presenter;
-  HomeCtx homeCtx;
+  HomeCtx homeCtx = new HomeCtx([]);
 
   @override
   Widget build(BuildContext context) {

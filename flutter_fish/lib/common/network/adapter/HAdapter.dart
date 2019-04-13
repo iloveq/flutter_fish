@@ -1,4 +1,4 @@
-import 'dart:_http';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_fish/common/network/adapter/RequestCtx.dart';
@@ -16,7 +16,7 @@ class HAdapter {
     dio = new Dio();
   }
 
-  Future<Response<dynamic>> request(RequestCtx ctx) {
+  Future<Response<dynamic>> request(RequestCtx ctx) async {
 
     Future<Response<dynamic>> response;
 
