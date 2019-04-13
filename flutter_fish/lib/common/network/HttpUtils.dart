@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_fish/common/constants/HttpConstants.dart';
 import 'package:flutter_fish/common/network/adapter/HAdapter.dart';
+import 'package:flutter_fish/common/network/adapter/HInterface.dart';
 import 'package:flutter_fish/common/network/adapter/RequestCtx.dart';
 
-class HttpUtils {
+class HttpUtils{
 
   static final HttpUtils _instance = new HttpUtils._internal();
 
@@ -13,17 +14,29 @@ class HttpUtils {
 
   HttpUtils._internal();
 
-  req(String actionPath, {String method, Map<String, dynamic> body}) {
+  Future<Response> req(String actionPath, {String method,int timeout,
+    Map<String, dynamic> header,
+    Map<String, dynamic> params,
+    Map<String, dynamic> body,
+    Transformer transformer,
+    List<Interceptor> interceptors}) {
     try {
       RequestCtx ctx = new Builder()
           .setUrl(HttpConstants.serverAddress + actionPath)
           .setMethod(method)
-          .setResponseType(ResponseType.bytes)
+          .setHeaderMap(header)
+          .setTimeout(timeout)
+          .setParams(params)
+          .setResponseType(ResponseType.plain)
           .setBodyMap(body)
+          .setTransformer(transformer)
+          .setInterceptors(interceptors)
           .build();
-      HAdapter.get().request(ctx);
+      return HAdapter.get().request(ctx);
+      
     } catch (e) {
       print(e.toString());
+      rethrow;
     }
   }
 }

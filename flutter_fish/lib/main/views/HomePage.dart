@@ -18,7 +18,7 @@ class HomePageState extends State<HomePage> implements View {
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
-        itemCount: homeCtx.getBannerList().length,
+        itemCount: homeCtx.bannerList.length,
         itemBuilder: (context, index) {
           return new ListTile(
             title: new Text(homeCtx.bannerList.elementAt(index).getTitle()),
@@ -51,9 +51,8 @@ class HomePageState extends State<HomePage> implements View {
 
   @override
   void renderPage(Object o) {
-    setState(() {
-      this.homeCtx = o;
-    });
+    this.homeCtx.bannerList = o;
+    setState(() {});
   }
 
   @override
