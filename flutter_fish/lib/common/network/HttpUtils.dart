@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_fish/common/constants/HttpConstants.dart';
 import 'package:flutter_fish/common/network/adapter/HAdapter.dart';
-import 'package:flutter_fish/common/network/adapter/HInterface.dart';
 import 'package:flutter_fish/common/network/adapter/RequestCtx.dart';
 
 class HttpUtils{
