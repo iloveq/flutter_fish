@@ -39,7 +39,7 @@ class HAdapter {
       dio.interceptors.addAll(ctx.interceptors);
     }
 
-    String url;
+    String url = ctx.url;
 
     if (ctx.paramMap != null && ctx.paramMap is Map && ctx.paramMap.isNotEmpty) {
       StringBuffer sb = new StringBuffer("?");
@@ -49,8 +49,6 @@ class HAdapter {
       String paramStr = sb.toString();
       paramStr = paramStr.substring(0, paramStr.length - 1);
       url += paramStr;
-    }else{
-      url=ctx.url;
     }
 
     switch (ctx.method) {
@@ -58,7 +56,7 @@ class HAdapter {
         response = dio.get(url);
         break;
       case "post":
-        response = dio.post(ctx.url, data: ctx.bodyMap);
+        response = dio.post(url, data: ctx.bodyMap);
         break;
       default:
         response = dio.get(url);
