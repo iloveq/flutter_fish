@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/widgets/PtrContainer.dart';
 
 class GroupPage extends StatefulWidget{
   @override
@@ -8,10 +9,20 @@ class GroupPage extends StatefulWidget{
 
 class GroupState extends State<GroupPage> {
 
+
+  var loadMoreListener = new OnLoadMoreListener();
+  var refreshListener = new OnRefreshListener();
+
   @override
   Widget build(BuildContext context) {
     return new Center(
-      child: new Text('GroupPage'),
+      child: new PtrContainer(
+        new RefreshHeader(),
+        new Container(),
+        new LoadMoreFooter(),
+        loadMoreListener,
+        refreshListener
+      ),
     );
   }
 
