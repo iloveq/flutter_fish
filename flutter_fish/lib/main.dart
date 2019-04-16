@@ -21,7 +21,6 @@ class MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
       routes: Routers.configureRoutes(),
     );
   }

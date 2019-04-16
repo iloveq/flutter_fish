@@ -91,14 +91,16 @@ class OnLoadMoreListener {
 class PtrGesturesHelper {
   var _offset;
   double lastDownY;
-  ScrollController scrollController;
+  ScrollController _scrollController;
   double downY = 0.0;
 
   PtrGesturesHelper()
       : _offset = 0.0,
         lastDownY = 0.0 {
-    scrollController = new ScrollController(initialScrollOffset: this._offset);
+    _scrollController = new ScrollController(initialScrollOffset: this._offset);
   }
+
+  ScrollController get createController => _scrollController==null?new ScrollController(initialScrollOffset: 0.0):_scrollController;
 }
 
 class PtrContainer extends StatefulWidget {
@@ -127,6 +129,10 @@ class PtrContainerState extends State<PtrContainer> {
   double downY;
   double lastDownY = 0.0;
   double lastListLength = 0.0;
+  List<Widget> slivers;
+  bool isLoadMore;
+  bool isRefresh;
+  int itemCount;
 
   PtrContainerState(this.header, this.body, this.footer,
       this.loadMoreListener, this.refreshListener);
@@ -140,8 +146,7 @@ class PtrContainerState extends State<PtrContainer> {
       if (header != null) {
         widgets.add(header);
       }
-//      new ScrollView();
-      widgets.add(body);
+      widgets.add(buildBody(body));
       if (footer != null) {
         widgets.add(footer);
       }
@@ -156,8 +161,8 @@ class PtrContainerState extends State<PtrContainer> {
             if (helper.lastDownY == 0) refreshListener.onRefresh();
             print(111);
           } else {
-            var scrollExtent = helper.scrollController.position.maxScrollExtent;
-            var result = helper.scrollController.offset +
+            var scrollExtent = helper.createController.position.maxScrollExtent;
+            var result = helper.createController.offset +
                 (position - downY).abs();
             if (result >= scrollExtent) {
               lastListLength = scrollExtent;
@@ -178,5 +183,91 @@ class PtrContainerState extends State<PtrContainer> {
       );
     }
     return current;
+  }
+
+  Widget buildBody(Widget body) {
+    if (body is ScrollView) {
+      // ignore: invalid_use_of_protected_member
+      slivers = new List.from(body.buildSlivers(context), growable: true);
+
+      // 判断是否为加载更多
+      if (isLoadMore) {
+        if (body.semanticChildCount == null) {
+          new Future.delayed(const Duration(milliseconds: 100), () {
+
+          });
+        } else if (body.semanticChildCount > this.itemCount) {
+          new Future.delayed(const Duration(milliseconds: 100), () {
+
+          });
+        } else {
+          new Future.delayed(const Duration(milliseconds: 100), () {
+
+          });
+        }
+        isLoadMore = false;
+      }
+      // 记录列表项
+      this.itemCount = body.semanticChildCount;
+    } else {
+      slivers = new List<Widget>();
+      slivers.add(SliverList(delegate: SliverChildListDelegate(<Widget>[body])));
+    }
+
+    // 构建列表
+    var listChild = CustomScrollView(
+      semanticChildCount: body is ScrollView ? body.semanticChildCount : 1,
+      controller: helper.createController,
+      slivers: new List.from(slivers, growable: true),
+    );
+
+    var listWidget;
+    //listWidget = (body == null ? listChild : body.builder());
+
+    return ScrollConfiguration(
+      behavior: new ScrollOverBehavior(),
+      child: listChild,
+    );
+
+  }
+}
+
+
+/// 滚动视图边界光晕
+class RefreshBehavior extends ScrollBehavior {
+  final bool showLeading;
+  final bool showTrailing;
+  final Color color;
+
+  RefreshBehavior(
+      {this.showLeading: false,
+        this.showTrailing: false,
+        this.color: Colors.blue});
+
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return new GlowingOverscrollIndicator(
+      showLeading: showLeading,
+      showTrailing: showTrailing,
+      child: child,
+      axisDirection: axisDirection,
+      color: color,
+    );
+  }
+}
+
+/// 回弹效果(仅用于判断类型)
+class ScrollOverBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return new GlowingOverscrollIndicator(
+      showLeading: false,
+      showTrailing: false,
+      child: child,
+      axisDirection: axisDirection,
+      color: Colors.blue,
+    );
   }
 }
