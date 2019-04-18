@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fish/ThridLibsManager.dart';
 import 'package:flutter_fish/routers/Routers.dart';
-import 'package:flutter_fish/welcome/view/WelcomePage.dart';
+
 
 void main() {
   ThirdLibsManager.get().setup();
@@ -18,6 +18,7 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -24,7 +24,7 @@ class ThirdLibsManager implements TDelegate{
 
   @override
   void setup() {
-    // TODO: implement setup
+
   }
  
 
