@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_fish/common/constants/HttpConstants.dart';
 import 'package:flutter_fish/common/network/adapter/HAdapter.dart';
