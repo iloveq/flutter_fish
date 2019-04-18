@@ -6,7 +6,7 @@ class MinePage extends StatefulWidget{
 }
 
 
-class MineState extends State<MinePage> {
+class MineState extends State<MinePage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
@@ -14,5 +14,8 @@ class MineState extends State<MinePage> {
       child: new Text('MinePage'),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

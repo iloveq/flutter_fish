@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 
 /// **************************************************************/
 
-class HomePageState extends State<HomePage> implements View {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin implements View {
   HomePresenter presenter;
   HomeCtx homeCtx = new HomeCtx([]);
 
@@ -41,12 +41,10 @@ class HomePageState extends State<HomePage> implements View {
 
   @override
   void closeLoading() {
-    // TODO: implement closeLoading
   }
 
   @override
   void reload() {
-    // TODO: implement reload
   }
 
   @override
@@ -57,16 +55,16 @@ class HomePageState extends State<HomePage> implements View {
 
   @override
   void showDisconnect() {
-    // TODO: implement showDisconnect
   }
 
   @override
   void showError(String msg) {
-    // TODO: implement showError
   }
 
   @override
   void showLoading() {
-    // TODO: implement showLoading
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

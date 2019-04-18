@@ -6,7 +6,7 @@ class MessagePage extends StatefulWidget{
 }
 
 
-class MessageState extends State<MessagePage> {
+class MessageState extends State<MessagePage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
@@ -14,5 +14,8 @@ class MessageState extends State<MessagePage> {
       child: new Text('MessagePage'),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }
