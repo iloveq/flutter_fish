@@ -10,4 +10,8 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+-(void)applicationWillTerminate:(UIApplication *)application{
+    
+}
+
 @end

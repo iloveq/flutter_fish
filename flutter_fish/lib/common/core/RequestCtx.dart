@@ -1,13 +1,10 @@
 import 'dart:io';
 
-
-
 class HConstants {
   static final String get = "get";
   static final String post = "post";
   static final int timeout = 15000;
 }
-
 
 class RequestCtx {
   String _url;
