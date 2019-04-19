@@ -16,7 +16,7 @@ class WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body:loadImageFullScreen(context,'images/init_cover.png')
+        body:loadImageFullScreen(context,'images/welcome/init_cover.png')
     );
   }
 
