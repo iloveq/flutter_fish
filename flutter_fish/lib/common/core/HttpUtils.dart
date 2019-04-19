@@ -49,7 +49,7 @@ class HttpUtils{
     }
   }
 
-  String getAssembleUrl(String url,Map<String, dynamic> params){
+  String wrapUrlByParams(String url,Map<String, dynamic> params){
     String ret = url;
     if (params != null && params is Map && params.isNotEmpty) {
       StringBuffer sb = new StringBuffer("?");

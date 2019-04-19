@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin implements View {
   HomePresenter presenter;
-  HomeCtx homeCtx = new HomeCtx([]);
+  HomeCtx homeCtx = new HomeCtx();
 
   @override
   Widget build(BuildContext context) {

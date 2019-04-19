@@ -39,7 +39,7 @@ class MyAdapter implements HAdapter{
       }
     }
 
-    String url = HttpUtils.get().getAssembleUrl(ctx.url, ctx.paramMap);
+    String url = HttpUtils.get().wrapUrlByParams(ctx.url, ctx.paramMap);
 
     switch (ctx.method) {
       case "get":

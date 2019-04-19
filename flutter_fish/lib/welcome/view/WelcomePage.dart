@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/utils/ImageUtils.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -15,12 +16,7 @@ class WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: new Image.asset('images/init_cover.png',
-            key: new Key('ivSplash'),
-            fit: BoxFit.fill,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height
-        )
+        body:loadImageFullScreen(context,'images/init_cover.png')
     );
   }
 
@@ -30,7 +26,7 @@ class WelcomePageState extends State<WelcomePage> {
     timer = new Timer(duration, () {
       try {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/index', (route) => route == null);
+            .pushNamedAndRemoveUntil('/index', (route) => false);
       } catch (e) {}
     });
   }
