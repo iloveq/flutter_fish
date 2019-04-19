@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'HInterface.dart';
+
+
 class HConstants {
   static final String get = "get";
   static final String post = "post";
@@ -18,6 +21,7 @@ class RequestCtx {
   int _retryCount;
   dynamic _transformer;
   List<dynamic> _interceptors;
+  dataCallback _callback;
 
   RequestCtx(final Builder builder) {
     this._url = builder.url;
@@ -31,6 +35,7 @@ class RequestCtx {
     this._retryCount = builder.retryCount;
     this._transformer = builder.transformer;
     this._interceptors = builder.interceptors;
+    this._callback = builder.callback;
   }
 
   String get url => _url;
@@ -54,6 +59,9 @@ class RequestCtx {
   dynamic get transformer => _transformer;
 
   List<dynamic> get interceptors => _interceptors;
+
+  dataCallback get callback => _callback;
+
 }
 
 class Builder {
@@ -68,6 +76,7 @@ class Builder {
   int retryCount;
   dynamic transformer;
   List<dynamic> interceptors;
+  dataCallback callback;
 
   Builder setUrl(String url) {
     this.url = url;
@@ -121,6 +130,11 @@ class Builder {
 
   Builder setInterceptors(List<dynamic> interceptors) {
     this.interceptors = interceptors;
+    return this;
+  }
+
+  Builder setDataCallback(dataCallback callback) {
+    this.callback = callback;
     return this;
   }
 

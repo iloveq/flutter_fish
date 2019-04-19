@@ -14,7 +14,7 @@ abstract class HAdapter {
 typedef transformer = String Function(String original);
 
 // a callback
-typedef callBack = Function(int state, dynamic data);
+typedef dataCallback = Function(int state, dynamic data);
 
 class HState{
   static final int success = 1;//成功

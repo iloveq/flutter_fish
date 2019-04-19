@@ -1,5 +1,5 @@
 import 'package:flutter_fish/common/core/HttpUtils.dart';
-import 'common/network/MyHAdapter.dart';
+import 'common/network/DioAdapter.dart';
 import 'common/utils/LogUtils.dart';
 
 class TDelegate{
@@ -26,7 +26,7 @@ class ThirdLibsManager implements TDelegate{
 
   @override
   void setup() {
-     HttpUtils.get().setAdapter(MyAdapter());
+     HttpUtils.get().setAdapter(DioAdapter());
      Log.setEnable(true);
   }
  

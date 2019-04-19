@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-import 'package:flutter_fish/common/core/RequestCtx.dart';
-
 import 'HInterface.dart';
+import 'RequestCtx.dart';
 
 class HttpUtils{
 
@@ -27,7 +26,9 @@ class HttpUtils{
     Map<String, dynamic> params,
     Map<String, dynamic> body,
     Transformer transformer,
-    List<Interceptor> interceptors}) {
+    List<Interceptor> interceptors,
+    dataCallback callback
+    }) {
     assert(_adapter!=null);
     try {
       RequestCtx ctx = new Builder()
@@ -40,6 +41,7 @@ class HttpUtils{
           .setBodyMap(body)
           .setTransformer(transformer)
           .setInterceptors(interceptors)
+          .setDataCallback(callback)
           .build();
       return _adapter.request(ctx);
       

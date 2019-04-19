@@ -6,10 +6,11 @@ import 'package:flutter_fish/common/core/HInterface.dart';
 import 'package:flutter_fish/common/core/HttpUtils.dart';
 import 'package:flutter_fish/common/core/RequestCtx.dart';
 
-class MyAdapter implements HAdapter{
+class DioAdapter implements HAdapter{
 
   Dio _dio;
-  MyAdapter() {
+
+  DioAdapter() {
     _dio = new Dio();
   }
 
@@ -21,7 +22,7 @@ class MyAdapter implements HAdapter{
     _dio.options = new BaseOptions(
         connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
         receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "MyAdapter"}:ctx.headerMap,
+        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
         contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
         responseType: ctx.responseType == null ? ResponseType.json : ctx.responseType,
         validateStatus: (status) {
@@ -50,6 +51,15 @@ class MyAdapter implements HAdapter{
         break;
       default:
         response = _dio.get(url);
+    }
+
+    if(ctx.callback!=null){
+      response.then((response){
+        // can by some response.statusCode to make some regex
+        ctx.callback(HState.success,response.data);
+      }).catchError((e){
+        ctx.callback(HState.fail,e);
+      });
     }
 
     return response;
