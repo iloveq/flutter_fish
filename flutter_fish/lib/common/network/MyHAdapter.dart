@@ -1,26 +1,24 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_fish/common/network/adapter/RequestCtx.dart';
+import 'package:flutter_fish/common/core/HInterface.dart';
+import 'package:flutter_fish/common/core/HttpUtils.dart';
+import 'package:flutter_fish/common/core/RequestCtx.dart';
 
-class HAdapter {
-  Dio dio;
+class MyAdapter implements HAdapter{
 
-  static final HAdapter _instance = new HAdapter._internal();
-
-  static HAdapter get() => _instance;
-
-  factory HAdapter() => _instance;
-
-  HAdapter._internal() {
-    dio = new Dio();
+  Dio _dio;
+  MyAdapter() {
+    _dio = new Dio();
   }
 
+  @override
   Future<Response<dynamic>> request(RequestCtx ctx) async {
 
     Future<Response<dynamic>> response;
 
-    dio.options = new BaseOptions(
+    _dio.options = new BaseOptions(
         connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
         receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
         headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "HAdapter"}:ctx.headerMap,
@@ -32,34 +30,26 @@ class HAdapter {
     );
 
     if (ctx.transformer != null) {
-      dio.transformer = ctx.transformer;
+      _dio.transformer = ctx.transformer;
     }
 
     if (ctx.interceptors != null && ctx.interceptors.isNotEmpty) {
-      dio.interceptors.addAll(ctx.interceptors);
+      for (var value in ctx.interceptors) {
+        _dio.interceptors.add(value);
+      }
     }
 
-    String url = ctx.url;
-
-    if (ctx.paramMap != null && ctx.paramMap is Map && ctx.paramMap.isNotEmpty) {
-      StringBuffer sb = new StringBuffer("?");
-      ctx.paramMap.forEach((key, value) {
-        sb.write("$key" + "=" + "$value" + "&");
-      });
-      String paramStr = sb.toString();
-      paramStr = paramStr.substring(0, paramStr.length - 1);
-      url += paramStr;
-    }
+    String url = HttpUtils.get().getAssembleUrl(ctx.url, ctx.paramMap);
 
     switch (ctx.method) {
       case "get":
-        response = dio.get(url);
+        response = _dio.get(url);
         break;
       case "post":
-        response = dio.post(url, data: ctx.bodyMap);
+        response = _dio.post(url, data: ctx.bodyMap);
         break;
       default:
-        response = dio.get(url);
+        response = _dio.get(url);
     }
 
     return response;

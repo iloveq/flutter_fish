@@ -6,6 +6,6 @@ class HttpConstants{
 
   ///******************************* action ****************************************/
 
-  static final String bannerList = "bannerList";
+  static final String bannerList = serverAddress + "bannerList";
 
 }

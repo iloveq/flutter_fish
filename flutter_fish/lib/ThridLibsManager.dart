@@ -1,4 +1,6 @@
-// maybe a interface or a father object
+import 'package:flutter_fish/common/core/HttpUtils.dart';
+import 'common/network/MyHAdapter.dart';
+
 class TDelegate{
 
   void setup(){}
@@ -19,12 +21,11 @@ class ThirdLibsManager implements TDelegate{
 
   @override
   void release() {
-    // TODO: implement release
   }
 
   @override
   void setup() {
-
+     HttpUtils.get().setAdapter(MyAdapter());
   }
  
 

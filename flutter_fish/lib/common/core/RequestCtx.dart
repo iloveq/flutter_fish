@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+
 
 class HConstants {
   static final String get = "get";
@@ -8,18 +8,19 @@ class HConstants {
   static final int timeout = 15000;
 }
 
+
 class RequestCtx {
   String _url;
   String _method;
   int _timeout;
   ContentType _contentType;
-  ResponseType _responseType;
+  dynamic _responseType;
   Map<String, dynamic> _paramMap;
   Map<String, dynamic> _headerMap;
   Map<String, dynamic> _bodyMap;
   int _retryCount;
-  Transformer _transformer;
-  List<Interceptor> _interceptors;
+  dynamic _transformer;
+  List<dynamic> _interceptors;
 
   RequestCtx(final Builder builder) {
     this._url = builder.url;
@@ -43,7 +44,7 @@ class RequestCtx {
 
   ContentType get contentType => _contentType;
 
-  ResponseType get responseType => _responseType;
+  dynamic get responseType => _responseType;
 
   Map<String, dynamic> get paramMap => _paramMap;
 
@@ -53,9 +54,9 @@ class RequestCtx {
 
   int get retryCount => _retryCount;
 
-  Transformer get transformer => _transformer;
+  dynamic get transformer => _transformer;
 
-  List<Interceptor> get interceptors => _interceptors;
+  List<dynamic> get interceptors => _interceptors;
 }
 
 class Builder {
@@ -63,13 +64,13 @@ class Builder {
   String method;
   int timeout;
   ContentType contentType;
-  ResponseType responseType;
+  dynamic responseType;
   Map<String, dynamic> paramMap;
   Map<String, dynamic> headerMap;
   Map<String, dynamic> bodyMap;
   int retryCount;
-  Transformer transformer;
-  List<Interceptor> interceptors;
+  dynamic transformer;
+  List<dynamic> interceptors;
 
   Builder setUrl(String url) {
     this.url = url;
@@ -91,7 +92,7 @@ class Builder {
     return this;
   }
 
-  Builder setResponseType(ResponseType responseType) {
+  Builder setResponseType(dynamic responseType) {
     this.responseType = responseType;
     return this;
   }
@@ -116,12 +117,12 @@ class Builder {
     return this;
   }
 
-  Builder setTransformer(Transformer transformer) {
+  Builder setTransformer(dynamic transformer) {
     this.transformer = transformer;
     return this;
   }
 
-  Builder setInterceptors(List<Interceptor> interceptors) {
+  Builder setInterceptors(List<dynamic> interceptors) {
     this.interceptors = interceptors;
     return this;
   }

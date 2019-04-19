@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -221,7 +223,7 @@ class PtrContainerState extends State<PtrContainer> {
       slivers: new List.from(slivers, growable: true),
     );
 
-    var listWidget;
+    //var listWidget;
     //listWidget = (body == null ? listChild : body.builder());
 
     return ScrollConfiguration(
