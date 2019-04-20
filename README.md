@@ -1,7 +1,5 @@
 # flutter_fish
 
-A new Flutter application.
-
 ```
 
 npm install -g json-server
@@ -23,74 +21,221 @@ class HttpConstants{
   static final String bannerList = "bannerList";
 
 }
-
-
 ```
 
-Presenter:
+#### 背景：flutter 跨平台开发吸引人，想试试
+web ->  service -> dao
+view -> presenter -> model
+mvp 此类设计可以把工程易变的和不容易变的分离，是为解耦。关于为什么要解耦，如何解耦，什么是解耦 ... 我们暂且不聊～
+既然要开发 flutter 工程，我们必然要做一些基础工作。比如 mvp，网络请求，工具类，基础UI 等等的封装和抽取
+![common](https://upload-images.jianshu.io/upload_images/8886407-c9c62221b125e9bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+介绍一下上图：
+1:和业务线无关的 base/core/utils/mvp/network
+2:和技术选型无关的 mvp/core 也就是 mvp 和 网络封装(core 通过适配器可适配各种网络框架)
+
+#### 今天，我们只看 flutter 中 mvp 和 网络框架的封装及其使用：
+
+##### 1：mvp 
+
+[基于 google Android Architecture =>https://github.com/googlesamples/android-architecture](https://github.com/googlesamples/android-architecture)
+mvp 实现： 遵守 contract 面向接口编程思想
+HomeContract.dart
+```
+class View extends ILoadingView{
+}
+class Presenter extends IPresenter{
+  void getBannerList(){}
+}
+```
+HomePresenter.dart 负责业务相关实现
 ```
 class HomePresenter extends BasePresenter<View> implements Presenter {
-
-  HomePresenter(View view) : super(view);
-
+  HomePresenter(View view) : super(view);  
   @override
   void start() {}
-
   @override
-  void getBannerList(){
+  void getBannerList() {
     view.showLoading();
-    HttpProxy.getBannerList().then((Response res) {
-      view.closeLoading();
-      List<Banner> bannerList = new GetBannerListJsonParser().parse(res.data);
-      view.renderPage(bannerList);
-    }).catchError((e) {
-      view.closeLoading();
-      view.showError(e.toString());
+    // 方式一
+    HttpProxy.getBannerList((int state, dynamic data) {
+      if (state == HState.success) {
+        view.closeLoading();
+        List<Banner> bannerList = new GetBannerListJsonParser().parse(data);
+        view.renderPage(bannerList);
+      } else {
+        view.closeLoading();
+        view.showError(data.toString());
+      }
     });
+//    方式二
+//    HttpProxy.getBannerList().then((Response res) {
+//      view.closeLoading();
+//      List<Banner> bannerList =
+//          new GetBannerListJsonParser().parse(res.data);
+//      view.renderPage(bannerList);
+//    }).catchError((e) {
+//      view.closeLoading();
+//      view.showError(e.toString());
+//    });
   }
 }
 ```
-JsonParser:
-
+方式1和方式2的两种网络请求我们一会儿再看，接下来我们看 👇
+mvp 封装：
+最顶层基类，我们遵守可扩展原则
+IPresenter.dart 和 IView.dart
 ```
-class GetBannerListJsonParser extends JsonParser{
+class IPresenter{}
+class IView{}
+```
+对于app常见页面场景 ILoadingView.dart 和 ILoadingListView.dart
+```
+class ILoadingView extends IView{
+  void showLoading(){}
+  void closeLoading(){}
+  void renderPage(Object o){}
+  void reload(){}
+  void showError(String msg){}
+  void showDisconnect(){}
+}
+class ILoadingListView extends ILoadingView{
+  void showEmpty(){}
+}
+```
+关于命名，dart 没有 interface 我就以 I 开头了，至于抽象类建议 Abs 开头
+如何把 view 和 presenter 关联呢，看 BasePresenter.dart
+```
+abstract class BasePresenter<T> {
+  T view;
+  BasePresenter(this.view);
+  void start();
+  void stop() {
+    this.view = null;
+  }
+}
+```
+关于这样写，也是受 google 的那些 sample 影响，至少有一个 start () 方法，可以用可以不用，个人习惯，不过还是建议，有构造就有析构 有始有终，至于指定泛型，好处呢，编译前里可以找到 view 的方法并且省去一些 view 绑定 presenter 代码的编写。dartVm没有泛型插除，带来自由的同时，也带来了危险，不过 dynamic 的类型真的很好。
+
+##### 2：网络请求二次封装
+core 是存粹的，不应该引入任何网络请求的库，这样才能做到通用性，通过 Adapter 来做不同网络框架的适配
+core 里 HttpUtils 的使用：初始化适配器
+main.dart  一些个人想法，所有 widget 组成的 page 都应有 state ，stateless 可以做一些自定义基础控件和无交互的UI展示
+```
+void main() {
+  ThirdLibsManager.get().setup();
+  runApp(MyApp());
+}
+class MyApp extends StatefulWidget {
   @override
-  parse(String str) {
-    List<Banner> list = [];
-    List<dynamic> jsonArray = JsonCodec().decode(str);
-    for (Map map in jsonArray) {
-      var banner = new Banner(map["title"], map["iconUrl"]);
-      list.add(banner);
-    }
-    return list;
+  State<StatefulWidget> createState() => MyAppState();
+}
+class MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    // ...
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    // 这个回调放这可能不对，感觉要用 channel 建立 dart 和 native(and/ios) 通道
+    ThirdLibsManager.get().release();
   }
 }
 ```
-
-
-HttpProxy:
-
 ```
-static Future<Response> getBannerList() async {
-    return await HttpUtils.getInstance().req(HttpConstants.bannerList);
+class TDelegate{
+  void setup(){}
+  void release(){}
+}
+class ThirdLibsManager implements TDelegate{
+  static final ThirdLibsManager _instance = new ThirdLibsManager._internal();
+  static ThirdLibsManager get() => _instance;
+  factory ThirdLibsManager() => _instance;
+  ThirdLibsManager._internal();
+  @override
+  void release() {}
+  @override
+  void setup() {
+     // 设置适配器
+     HttpUtils.get().setAdapter(DioAdapter());
+     Log.setEnable(true);
   }
-  
+}
 ```
+设置适配器以后的工作就是之前我们看到 HomePresenter.dart 里的那样了
 
+封装：
+1:interface 一些接口和协议，可以看出 dart 语言灵活的魅力，一千个读者一千个哈姆雷特，总有一种写法适合你；
+2:utils 一个入口;
+3:ctx 一个抽象的全局的结构体；
 
-HttpUtils:
-
+HInterface.dart
 ```
-Future<Response> req(String actionPath, {String method,int timeout,
+import 'dart:async';
+import 'RequestCtx.dart';
+abstract class JsonParser<T> {
+  T parse(String jsonStr);
+}
+abstract class HAdapter {
+  Future<dynamic> request(RequestCtx ctx);
+}
+// a transformer
+typedef transformer = String Function(String original);
+// a callback
+typedef dataCallback = Function(int state, dynamic data);
+class HState{
+  static final int success = 1;//成功
+  static final int fail = 0;//失败
+  static final int intercept = -1;//中断
+}
+```
+RequestCtx.dart 包含了网络请求和响应的所有必要的结构组成
+```
+import 'dart:io';
+import 'HInterface.dart';
+class HConstants {
+  static final String get = "get";
+  static final String post = "post";
+  static final int timeout = 15000;
+}
+class RequestCtx {
+  String _url;
+  String _method;
+  int _timeout;
+  ContentType _contentType;
+  dynamic _responseType;
+  Map<String, dynamic> _paramMap;
+  Map<String, dynamic> _headerMap;
+  Map<String, dynamic> _bodyMap;
+  int _retryCount;
+  dynamic _transformer;
+  List<dynamic> _interceptors;
+  dataCallback _callback;
+  // ...  太多了，就不写了，可以 看github 👆article start part
+}
+```
+上面看到有2种网络请求的书写方式呢？我们看 HttpUtils 入口和  Adatper 接口的实现类：
+HttpUtils.dart  某些人写的网络框架做了更深的 future 的封装，我们就不需要 callback，没做的，我们要在 adapter 的实现类里手动回调，这也是 callback 函数的意义。
+```
+class HttpUtils{
+  HAdapter _adapter;
+  // 省略 单列模式 的固定书写
+  setAdapter(HAdapter adapter){
+    this._adapter = adapter;
+  }
+  Future<dynamic> req(String url, {String method,int timeout,
     Map<String, dynamic> header,
     Map<String, dynamic> params,
     Map<String, dynamic> body,
     Transformer transformer,
-    List<Interceptor> interceptors}) {
+    List<Interceptor> interceptors,
+    dataCallback callback
+    }) {
+    assert(_adapter!=null);//没有做adapter的实现是无法去请求的 asset 很强大
     try {
       RequestCtx ctx = new Builder()
-          .setUrl(HttpConstants.serverAddress + actionPath)
+          .setUrl(url)
           .setMethod(method)
           .setHeaderMap(header)
           .setTimeout(timeout)
@@ -99,8 +244,9 @@ Future<Response> req(String actionPath, {String method,int timeout,
           .setBodyMap(body)
           .setTransformer(transformer)
           .setInterceptors(interceptors)
+          .setDataCallback(callback)
           .build();
-      return HAdapter.get().request(ctx);
+      return _adapter.request(ctx);
       
     } catch (e) {
       print(e.toString());
@@ -108,102 +254,81 @@ Future<Response> req(String actionPath, {String method,int timeout,
     }
   }
 
-```
-
-
-
-
-
-
-## Getting Started
-
-lib
-../common
-  ../network
-  ../constants
-  ../utils
-  ../style
-
-../welcome
-  ../model
-  ../view
-  ../presenter
-
-../main
-  ../model
-  ../view
-  ../presenter
-
-../routers
-
-
-#### 1：HttpUtils
-
-二次封装Dio
-基于：https://github.com/flutterchina/dio/blob/master/README-ZH.md#%E7%A4%BA%E4%BE%8B
-
-##### 请求配置
-
-```
-
-{
-  /// Http method.
-  String method;
-  /// 请求基地址,可以包含子路径，如: "https://www.google.com/api/".
-  String baseUrl;
-  /// Http请求头.
-  Map<String, dynamic> headers;
-  /// 连接服务器超时时间，单位是毫秒.
-  int connectTimeout;
-  /// 2.x中为接收数据的最长时限.
-  int receiveTimeout;
-  /// 请求路径，如果 `path` 以 "http(s)"开始, 则 `baseURL` 会被忽略； 否则,
-  /// 将会和baseUrl拼接出完整的的url.
-  String path = "";
-  /// 请求的Content-Type，默认值是[ContentType.JSON].
-  /// 如果您想以"application/x-www-form-urlencoded"格式编码请求数据,
-  /// 可以设置此选项为 `ContentType.parse("application/x-www-form-urlencoded")`,  这样[Dio]
-  /// 就会自动编码请求体.
-  ContentType contentType;
-  /// [responseType] 表示期望以那种格式(方式)接受响应数据。
-  /// 目前 [ResponseType] 接受三种类型 `JSON`, `STREAM`, `PLAIN`.
-  ///
-  /// 默认值是 `JSON`, 当响应头中content-type为"application/json"时，dio 会自动将响应内容转化为json对象。
-  /// 如果想以二进制方式接受响应数据，如下载一个二进制文件，那么可以使用 `STREAM`.
-  ///
-  /// 如果想以文本(字符串)格式接收响应数据，请使用 `PLAIN`.
-  ResponseType responseType;
-  /// `validateStatus` 决定http响应状态码是否被dio视为请求成功， 返回`validateStatus`
-  ///  返回`true` , 请求结果就会按成功处理，否则会按失败处理.
-  ValidateStatus validateStatus;
-  /// 用户自定义字段，可以在 [Interceptor]、[Transformer] 和 [Response] 中取到.
-  Map<String, dynamic> extra;
-  /// 公共query参数
-  Map<String, dynamic /*String|Iterable<String>*/ > queryParameters;
+  String wrapUrlByParams(String url,Map<String, dynamic> params){
+    String ret = url;
+    if (params != null && params is Map && params.isNotEmpty) {
+      StringBuffer sb = new StringBuffer("?");
+      params.forEach((key, value) {
+        sb.write("$key" + "=" + "$value" + "&");
+      });
+      String paramStr = sb.toString();
+      paramStr = paramStr.substring(0, paramStr.length - 1);
+      ret += paramStr;
+    }
+    return ret;
+  }
 }
-
 ```
-
-##### 响应数据
-
+DioAdapter.dart 这里先写一个 dio 的适配器，dynamic 的好处大家可以体会到，要实现其他的网络框架可以自己适配：
 ```
-{
-  /// 响应数据，可能已经被转换了类型, 详情请参考Options中的[ResponseType].
-  var data;
-  /// 响应头
-  HttpHeaders headers;
-  /// 本次请求信息
-  Options request;
-  /// Http status code.
-  int statusCode;
-  /// 是否重定向
-  bool isRedirect;
-  /// 重定向信息
-  List<RedirectInfo> redirects ;
-  /// 最终真正的请求地址(因为可能会重定向)
-  Uri realUri;
-  /// 响应对象的自定义字段（可以在拦截器中设置它），调用方可以在`then`中获取.
-  Map<String, dynamic> extra;
+class DioAdapter implements HAdapter{
+
+  Dio _dio;
+
+  DioAdapter() {
+    _dio = new Dio();
+  }
+
+  @override
+  Future<Response<dynamic>> request(RequestCtx ctx) async {
+
+    Future<Response<dynamic>> response;
+
+    _dio.options = new BaseOptions(
+        connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+        receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
+        contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
+        responseType: ctx.responseType == null ? ResponseType.json : ctx.responseType,
+        validateStatus: (status) {
+          return status >= 200 && status < 300 || status == 304;
+        }
+    );
+
+    if (ctx.transformer != null) {
+      _dio.transformer = ctx.transformer;
+    }
+
+    if (ctx.interceptors != null && ctx.interceptors.isNotEmpty) {
+      for (var value in ctx.interceptors) {
+        _dio.interceptors.add(value);
+      }
+    }
+
+    String url = HttpUtils.get().wrapUrlByParams(ctx.url, ctx.paramMap);
+
+    switch (ctx.method) {
+      case "get":
+        response = _dio.get(url);
+        break;
+      case "post":
+        response = _dio.post(url, data: ctx.bodyMap);
+        break;
+      default:
+        response = _dio.get(url);
+    }
+
+    if(ctx.callback!=null){
+      response.then((response){
+        // can by some response.statusCode to make some regex
+        ctx.callback(HState.success,response.data);
+      }).catchError((e){
+        ctx.callback(HState.fail,e);
+      });
+    }
+
+    return response;
+  }
 }
 ```
 
