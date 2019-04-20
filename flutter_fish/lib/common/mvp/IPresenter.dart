@@ -1,2 +1,1 @@
-class IPresenter{
-}
+class IPresenter{}

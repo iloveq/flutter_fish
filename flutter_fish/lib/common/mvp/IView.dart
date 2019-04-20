@@ -1,2 +1,1 @@
-class IView{
-}
+class IView{}
