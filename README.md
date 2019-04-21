@@ -19,7 +19,7 @@ class HttpConstants{
 }
 ```
 
-#### 背景：flutter 跨平台开发吸引人，想试试
+#### 背景：flutter  mvp 和 网络请求 的基本封装
 
 web ->  service -> dao
 
