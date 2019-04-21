@@ -19,13 +19,8 @@ class HttpConstants{
 }
 ```
 
-#### flutter  mvp 和 网络请求 的基本封装：
+#### flutter项目中可以做的一些基础工作
 
-web ->  service -> dao
-
-view -> presenter -> model
-
-mvp 此类设计可以把工程易变的和不容易变的分离，是为解耦。关于为什么要解耦，如何解耦，什么是解耦 ... 我们暂且不聊～
 既然要开发 flutter 工程，我们必然要做一些基础工作。比如 mvp，网络请求，工具类，基础UI 等等的封装和抽取
 ![common](https://upload-images.jianshu.io/upload_images/8886407-c9c62221b125e9bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -39,9 +34,15 @@ mvp 此类设计可以把工程易变的和不容易变的分离，是为解耦�
 
 ##### 1：mvp 
 
-[基于 google Android Architecture =>https://github.com/googlesamples/android-architecture](https://github.com/googlesamples/android-architecture)
+web ->  service -> dao
 
-mvp 实现： 遵守 contract 面向接口编程思想
+view -> presenter -> model
+
+mvp 此类设计可以把工程易变的和不容易变的分离，是为解耦。关于为什么要解耦，如何解耦，什么是解耦 ... 我们暂且不聊～
+
+[首先有基于 google Android Architecture =>https://github.com/googlesamples/android-architecture](https://github.com/googlesamples/android-architecture)
+
+其次是 mvp 的实现： 遵守 contract 面向接口编程思想
 
 HomeContract.dart
 ```
