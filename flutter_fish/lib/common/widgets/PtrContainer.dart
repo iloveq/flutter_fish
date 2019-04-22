@@ -3,92 +3,283 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Constants {
-  static final int onPrepare = 0;
-  static final int onStart = 1;
-  static final int onComplete = 2;
-  static final int onLoading = 3;
+typedef RefreshCallback = Future<void> Function();
+typedef LoadMoreCallback = Future<void> Function();
+
+typedef OnFooterStatusChange(FooterStatus status);
+typedef OnHeaderStatusChange(HeaderStatus status);
+typedef Widget TransitionBuilder(BuildContext context, Widget child, ScrollController scrollController);
+
+enum FooterStatus {
+  PREPARE,START,LOADING,COMPLETE,RELEASE
 }
 
-class StateListener {
-  void onPrepare() {}
+enum HeaderStatus{
+  PREPARE,START,REFRESHING,COMPLETE,RELEASE
+}
 
-  void onStart() {}
+class RefreshHeaderListener {
+  void onPrepare(){}
+  void onStart(){}
+  void onRefreshComplete(){}
+  void onRefreshing(){}
+  void onRelease(){}
+  void updateHeight(double height){}
+}
 
-  void onRefreshComplete() {}
-
-  void onRefreshLoading() {}
-
-  void onStateChange(int status) {}
+class LoadMoreFooterListener {
+  void onPrepare(){}
+  void onStart(){}
+  void onLoadMoreComplete(){}
+  void onLoading(){}
+  void onRelease(){}
+  void updateHeight(double height){}
 }
 
 
+abstract class RefreshHeader extends StatefulWidget {
+  final double refreshHeight;
+  final bool isFloat;
+  final int finishDelay;
+  GlobalKey<RefreshHeaderState> getKey() {
+    return this.key;
+  }
 
-class RefreshHeader extends RefreshIndicator implements StateListener {
+  RefreshHeader({
+    @required GlobalKey<RefreshHeaderState> key,
+    this.refreshHeight: 70.0,
+    this.isFloat: false,
+    this.finishDelay: 1000}
+    ):super(key:key){
+    assert(this.key!=null);
+  }
+}
 
+abstract class RefreshHeaderState<T extends RefreshHeader> extends State<T> implements RefreshHeaderListener{
 
+  HeaderStatus refreshHeaderStatus = HeaderStatus.PREPARE;
+  double height = 0.0;
 
+  @override
+  void updateHeight(double height) {
+    this.height = height;
+  }
 
   @override
   void onPrepare() {
-    // TODO: implement onPrepare
-  }
-
-  @override
-  void onRefreshComplete() {
-    // TODO: implement onRefreshComplete
-  }
-
-  @override
-  void onRefreshLoading() {
-    // TODO: implement onRefreshLoading
+    this.refreshHeaderStatus = HeaderStatus.RELEASE;
   }
 
   @override
   void onStart() {
-    // TODO: implement onStart
+    this.refreshHeaderStatus = HeaderStatus.START;
   }
 
   @override
-  void onStateChange(int status) {
-    // TODO: implement onStateChange
-  }
-}
-
-class LoadMoreFooter extends Container implements StateListener {
-  @override
-  void onPrepare() {
-    // TODO: implement onPrepare
+  void onRefreshing() {
+    this.refreshHeaderStatus = HeaderStatus.REFRESHING;
   }
 
   @override
   void onRefreshComplete() {
-    // TODO: implement onRefreshComplete
+    this.refreshHeaderStatus = HeaderStatus.COMPLETE;
   }
 
   @override
-  void onRefreshLoading() {
-    // TODO: implement onRefreshLoading
+  void onRelease() {
+    this.refreshHeaderStatus = HeaderStatus.RELEASE;
+  }
+
+}
+
+class RefreshHeaderImpl extends RefreshHeader{
+
+  final double refreshHeight;
+  final int finishDelay;
+  final RefreshHeaderListener listener;
+
+  RefreshHeaderImpl({
+    @required GlobalKey<RefreshHeaderState> key,
+    @required this.listener,
+    this.refreshHeight: 70.0,
+    this.finishDelay: 1000
+  }):super(key:key,
+      refreshHeight: refreshHeight,
+      finishDelay: finishDelay){
+      assert(listener != null);
+  }
+
+  @override
+  State<StatefulWidget> createState()=>RefreshHeaderImplState();
+
+}
+
+class RefreshHeaderImplState extends RefreshHeaderState<RefreshHeaderImpl>{
+  @override
+  Widget build(BuildContext context) {
+    return new Container();
+  }
+
+  @override
+  void onPrepare() {
+    super.onPrepare();
+    widget.listener.onPrepare();
   }
 
   @override
   void onStart() {
-    // TODO: implement onStart
+    super.onStart();
+    widget.listener.onStart();
   }
 
   @override
-  void onStateChange(int status) {
-    // TODO: implement onStateChange
+  void onRefreshing() {
+    super.onRefreshing();
+    widget.listener.onRefreshing();
+  }
+
+  @override
+  void onRefreshComplete() {
+    super.onRefreshComplete();
+    widget.listener.onRefreshComplete();
+  }
+
+  @override
+  void onRelease() {
+    super.onRelease();
+    widget.listener.onRelease();
+  }
+
+  @override
+  void updateHeight(double height) {
+    super.updateHeight(height);
+    widget.listener.updateHeight(height);
+  }
+
+}
+
+
+abstract class LoadMoreFooter extends StatefulWidget {
+  final double footerHeight;
+  final bool isFloat;
+  final int finishDelay;
+  GlobalKey<RefreshHeaderState> getKey() {
+    return this.key;
+  }
+
+  LoadMoreFooter({
+    @required GlobalKey<RefreshHeaderState> key,
+    this.footerHeight: 70.0,
+    this.isFloat: false,
+    this.finishDelay: 1000}
+      ):super(key:key){
+    assert(this.key!=null);
   }
 }
 
-class OnRefreshListener {
-  void onRefresh() {}
+abstract class LoadMoreFooterState<T extends LoadMoreFooter> extends State<T> implements LoadMoreFooterListener{
+
+  FooterStatus loadMoreFooterStatus = FooterStatus.PREPARE;
+  double height = 0.0;
+
+  @override
+  void updateHeight(double height) {
+    this.height = height;
+  }
+
+  @override
+  void onPrepare() {
+    this.loadMoreFooterStatus = FooterStatus.RELEASE;
+  }
+
+  @override
+  void onStart() {
+    this.loadMoreFooterStatus = FooterStatus.START;
+  }
+
+  @override
+  void onLoading() {
+    this.loadMoreFooterStatus = FooterStatus.LOADING;
+  }
+
+  @override
+  void onLoadMoreComplete() {
+    this.loadMoreFooterStatus = FooterStatus.COMPLETE;
+  }
+
+  @override
+  void onRelease() {
+    this.loadMoreFooterStatus = FooterStatus.RELEASE;
+  }
+
 }
 
-class OnLoadMoreListener {
-  void onLoadMore() {}
+class LoadMoreFooterImpl extends LoadMoreFooter{
+
+  final double footerHeight;
+  final int finishDelay;
+  final LoadMoreFooterListener listener;
+
+  LoadMoreFooterImpl({
+    @required GlobalKey<RefreshHeaderState> key,
+    @required this.listener,
+    this.footerHeight: 70.0,
+    this.finishDelay: 1000
+  }):super(key:key,
+      footerHeight: footerHeight,
+      finishDelay: finishDelay){
+    assert(listener != null);
+  }
+
+  @override
+  State<StatefulWidget> createState()=>LoadMoreFooterImplState();
+
 }
+
+class LoadMoreFooterImplState extends LoadMoreFooterState<LoadMoreFooterImpl>{
+  @override
+  Widget build(BuildContext context) {
+    return new Container();
+  }
+
+  @override
+  void onPrepare() {
+    super.onPrepare();
+    widget.listener.onPrepare();
+  }
+
+  @override
+  void onStart() {
+    super.onStart();
+    widget.listener.onStart();
+  }
+
+  @override
+  void onLoading() {
+    super.onLoading();
+    widget.listener.onLoading();
+  }
+
+  @override
+  void onLoadMoreComplete() {
+    super.onLoadMoreComplete();
+    widget.listener.onLoadMoreComplete();
+  }
+
+  @override
+  void onRelease() {
+    super.onRelease();
+    widget.listener.onRelease();
+  }
+
+  @override
+  void updateHeight(double height) {
+    super.updateHeight(height);
+    widget.listener.updateHeight(height);
+  }
+
+}
+
 
 class PtrGesturesHelper {
   var _offset;
@@ -106,28 +297,31 @@ class PtrGesturesHelper {
 }
 
 class PtrContainer extends StatefulWidget {
-  final Container header;
+  final RefreshHeader header;
   final Widget body;
-  final Container footer;
-  final OnLoadMoreListener loadMoreListener;
-  final OnRefreshListener refreshListener;
+  final LoadMoreFooter footer;
+  final LoadMoreCallback loadMoreListener;
+  final RefreshCallback refreshListener;
+  final TransitionBuilder listBuilder;
 
-  PtrContainer({this.header, this.body, this.footer, this.loadMoreListener,
-      this.refreshListener});
+  const PtrContainer({this.header, @required this.body, this.footer, this.loadMoreListener,
+      this.refreshListener,this.listBuilder});
 
   @override
   State<StatefulWidget> createState() =>
-      PtrContainerState(
-          header, body, footer, loadMoreListener, refreshListener);
+      PtrContainerState(header, body, footer, loadMoreListener, refreshListener,listBuilder);
 }
 
 class PtrContainerState extends State<PtrContainer> {
+
   PtrGesturesHelper helper = new PtrGesturesHelper();
-  Container header;
+
+  RefreshHeader header;
   Widget body;
-  Container footer;
-  final OnLoadMoreListener loadMoreListener;
-  final OnRefreshListener refreshListener;
+  final LoadMoreFooter footer;
+  final LoadMoreCallback loadMoreListener;
+  final RefreshCallback refreshListener;
+  final TransitionBuilder listBuilder;
   double downY;
   double lastDownY = 0.0;
   double lastListLength = 0.0;
@@ -137,7 +331,7 @@ class PtrContainerState extends State<PtrContainer> {
   int itemCount;
 
   PtrContainerState(this.header, this.body, this.footer,
-      this.loadMoreListener, this.refreshListener);
+      this.loadMoreListener, this.refreshListener,this.listBuilder);
 
   @override
   Widget build(BuildContext context) {
@@ -160,16 +354,18 @@ class PtrContainerState extends State<PtrContainer> {
           var position = event.position.distance;
           var ret = position - lastDownY;
           if (ret > 0) {
-            if (helper.lastDownY == 0) refreshListener.onRefresh();
-            print(111);
+            if (helper.lastDownY == 0) {
+              header.getKey().currentState.onRefreshing();
+              print("refresh");
+            }
           } else {
             var scrollExtent = helper.createController.position.maxScrollExtent;
             var result = helper.createController.offset +
                 (position - downY).abs();
             if (result >= scrollExtent) {
               lastListLength = scrollExtent;
-              loadMoreListener.onLoadMore();
-              print(222);
+
+              print("loadmore");
             }
             helper.lastDownY = result;
           }
