@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/base/BasePage.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
 import 'package:flutter_fish/main/model/wrapper/HomeCtx.dart';
 import 'package:flutter_fish/main/presenter/HomePresenter.dart';
@@ -11,12 +12,21 @@ class HomePage extends StatefulWidget {
 
 /// **************************************************************/
 
-class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin implements View {
+class HomePageState extends BaseLoadingPageState<HomePage> implements View{
+
   HomePresenter presenter;
-  HomeCtx homeCtx = new HomeCtx();
+  HomeCtx homeCtx;
+
+  @override
+  void initState() {
+    super.initState();
+    homeCtx = new HomeCtx();
+    presenter = new HomePresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new ListView.builder(
         itemCount: homeCtx.bannerList.length,
         itemBuilder: (context, index) {
@@ -27,11 +37,10 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin i
   }
 
   @override
-  void initState() {
-    super.initState();
-    presenter = new HomePresenter(this);
+  void onPageCreated() {
     presenter.getBannerList();
   }
+
 
   @override
   void dispose() {
@@ -40,31 +49,10 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin i
   }
 
   @override
-  void closeLoading() {
-  }
-
-  @override
-  void reload() {
-  }
-
-  @override
   void renderPage(Object o) {
     this.homeCtx.bannerList = o;
     setState(() {});
   }
 
-  @override
-  void showDisconnect() {
-  }
 
-  @override
-  void showError(String msg) {
-  }
-
-  @override
-  void showLoading() {
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

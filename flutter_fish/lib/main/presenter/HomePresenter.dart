@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:flutter_fish/common/core/HInterface.dart';
 import 'package:flutter_fish/common/mvp/BasePresenter.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
 import 'package:flutter_fish/main/model/HttpProxy.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_fish/main/model/bean/Banner.dart';
 import 'package:flutter_fish/main/model/jsonParser/GetBannerListJsonParser.dart';
 
 class HomePresenter extends BasePresenter<View> implements Presenter {
+
   HomePresenter(View view) : super(view);
 
   @override
@@ -14,14 +15,15 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
   @override
   void getBannerList(){
     view.showLoading();
-    HttpProxy.getBannerList().then((Response res) {
+    HttpProxy.getBannerList((int state,dynamic data){
       view.closeLoading();
-      List<Banner> bannerList =
-          new GetBannerListJsonParser().parse(res.data);
-      view.renderPage(bannerList);
-    }).catchError((e) {
-      view.closeLoading();
-      view.showError(e.toString());
+      if(state==HState.success){
+        List<Banner> bannerList = new GetBannerListJsonParser().parse(data);
+        view.renderPage(bannerList);
+      }else{
+        view.showError(data.toString());
+      }
     });
   }
+
 }
