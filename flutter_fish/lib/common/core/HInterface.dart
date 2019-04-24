@@ -21,3 +21,9 @@ class HState{
   static final int fail = 0;//失败
   static final int intercept = -1;//中断
 }
+
+class HResType{
+  static final int json = 1;
+  static final int string = 2;
+  static final int byte = 3;
+}

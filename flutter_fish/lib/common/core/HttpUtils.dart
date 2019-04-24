@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
-
 import 'HInterface.dart';
 import 'RequestCtx.dart';
 
@@ -25,8 +23,9 @@ class HttpUtils{
     Map<String, dynamic> header,
     Map<String, dynamic> params,
     Map<String, dynamic> body,
-    Transformer transformer,
-    List<Interceptor> interceptors,
+    dynamic responseType,
+    dynamic transformer,
+    List<dynamic> interceptors,
     dataCallback callback
     }) {
     assert(_adapter!=null);
@@ -37,7 +36,7 @@ class HttpUtils{
           .setHeaderMap(header)
           .setTimeout(timeout)
           .setParams(params)
-          .setResponseType(ResponseType.plain)
+          .setResponseType(responseType)
           .setBodyMap(body)
           .setTransformer(transformer)
           .setInterceptors(interceptors)
