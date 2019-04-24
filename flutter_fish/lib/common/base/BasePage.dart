@@ -54,12 +54,14 @@ abstract class BaseLoadingPageState<T extends StatefulWidget> extends BasePageSt
   void showDisconnect() {}
 
   @override
-  void showError(String msg) {
-    ToastUtils.show(msg);
+  void showError({String msg}) {
+    if(msg!=null) {
+      ToastUtils.show(msg);
+    }
   }
 
   @override
-  void showLoading() {
+  void showLoading({String msg}) {
     /// make dialog split from build that avoid to much dependence of a simple page
     showDialog<Null>(
         context: context,
@@ -67,7 +69,7 @@ abstract class BaseLoadingPageState<T extends StatefulWidget> extends BasePageSt
         builder: (BuildContext context) {
           return new LoadingDialog(
             //调用对话框
-            text: '正在获取详情...',
+            text: msg==null?'加载中...':msg,
           );
         });
   }

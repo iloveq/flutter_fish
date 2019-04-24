@@ -2,7 +2,7 @@ import 'package:flutter_fish/common/mvp/IView.dart';
 
 class ILoadingView extends IView{
 
-  void showLoading(){}
+  void showLoading({String msg}){}
 
   void closeLoading(){}
 
@@ -10,7 +10,7 @@ class ILoadingView extends IView{
 
   void reload(){}
 
-  void showError(String msg){}
+  void showError({String msg}){}
 
   void showDisconnect(){}
 

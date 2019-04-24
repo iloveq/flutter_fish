@@ -14,11 +14,11 @@ class ToastUtils {
       Fluttertoast.showToast(
           msg: s,
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
           backgroundColor: Colors.black54,
           textColor: Colors.white,
-          fontSize: 16.0
+          fontSize: 13.5
       );
     }
   }

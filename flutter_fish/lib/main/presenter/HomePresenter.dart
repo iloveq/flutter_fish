@@ -21,7 +21,7 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
         List<Banner> bannerList = new GetBannerListJsonParser().parse(data);
         view.renderPage(bannerList);
       }else{
-        view.showError(data.toString());
+        view.showError(msg:data.toString());
       }
     });
   }
