@@ -6,26 +6,43 @@ import 'package:flutter_fish/common/mvp/ILoadingView.dart';
 import 'package:flutter_fish/common/utils/ToastUtils.dart';
 import 'package:flutter_fish/common/widgets/LoadingDialog.dart';
 
-abstract class BasePage extends StatefulWidget{
-
+abstract class BasePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => getState();
-
   getState();
+}
+
+abstract class BasePageState<T extends StatefulWidget> extends State<T> {
+
+  bool _isPrepared = false;
+
+  ///*****************************************************/
+
+  @mustCallSuper
+  @override
+  Widget build(BuildContext context) {
+    if (!_isPrepared) {
+      Timer.run(() => preparedPage());
+      _isPrepared = true;
+    }
+    return null;
+  }
+
+  @mustCallSuper
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  /// to init once ,use timer make build completed to avoid dialog can get context
+  void preparedPage();
 
 }
 
-abstract class BasePageState<T extends StatefulWidget> extends State<T>{}
+///*****************************************************/
 
-abstract class BaseLoadingPageState<T extends StatefulWidget>extends State<T> implements ILoadingView{
-
-  var timer;
-  ///*****************************************************/
-
-  @override
-  void closeLoading() {
-    Navigator.pop(context);
-  }
+abstract class BaseLoadingPageState<T extends StatefulWidget> extends BasePageState<T>
+    implements ILoadingView {
 
   @override
   void reload() {}
@@ -43,35 +60,24 @@ abstract class BaseLoadingPageState<T extends StatefulWidget>extends State<T> im
 
   @override
   void showLoading() {
+    /// make dialog split from build that avoid to much dependence of a simple page
     showDialog<Null>(
-        context: context, //BuildContext对象
+        context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return new LoadingDialog( //调用对话框
+          return new LoadingDialog(
+            //调用对话框
             text: '正在获取详情...',
           );
         });
-
   }
 
-  @mustCallSuper
+
   @override
-  Widget build(BuildContext context) {
-    timer = new Timer(new Duration(milliseconds: 1), () {
-      onPageCreated();
-    });
-    return null;
+  void closeLoading() {
+    /// must dialog be showed , if not can make page to pop
+    Navigator.pop(context);
   }
 
-  @mustCallSuper
-  @override
-  void dispose() {
-    super.dispose();
-    if(timer!=null)
-       timer.cancel();
-
-  }
-
-  void onPageCreated();
 
 }

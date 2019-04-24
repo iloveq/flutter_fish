@@ -24,6 +24,7 @@ dependencies:
   flutter_webview_plugin: 0.3.3
   transparent_image: ^0.1.0
   fluttertoast: ^3.0.4
+  flutter_screenutil: ^0.5.2
 
 dev_dependencies:
   flutter_test:

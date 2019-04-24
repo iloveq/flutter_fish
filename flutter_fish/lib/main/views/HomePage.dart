@@ -5,6 +5,7 @@ import 'package:flutter_fish/main/contract/HomeContract.dart';
 import 'package:flutter_fish/main/model/wrapper/HomeCtx.dart';
 import 'package:flutter_fish/main/presenter/HomePresenter.dart';
 
+
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomePageState();
@@ -37,7 +38,7 @@ class HomePageState extends BaseLoadingPageState<HomePage> implements View{
   }
 
   @override
-  void onPageCreated() {
+  void preparedPage() {
     presenter.getBannerList();
   }
 
