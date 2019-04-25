@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/base/BasePage.dart';
 
 class MyFollowedPage extends StatefulWidget {
   @override
@@ -6,16 +7,22 @@ class MyFollowedPage extends StatefulWidget {
 }
 
 
-class MyFollowedPageState extends State<MyFollowedPage> with AutomaticKeepAliveClientMixin{
+class MyFollowedPageState extends LoadingPageState<MyFollowedPage>{
+
+  @override
+  void preparedPage() {
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Center(
       child: new Text('MyFollowedPage'),
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+
+
+
 
 }

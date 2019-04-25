@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 /// **************************************************************/
 
-class HomePageState extends BaseLoadingPageState<HomePage> implements View{
+class HomePageState extends LoadingPageState<HomePage> implements View{
 
   HomePresenter presenter;
   HomeCtx homeCtx;
@@ -26,6 +26,11 @@ class HomePageState extends BaseLoadingPageState<HomePage> implements View{
   }
 
   @override
+  void preparedPage() {
+    presenter.getBannerList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return new ListView.builder(
@@ -35,11 +40,6 @@ class HomePageState extends BaseLoadingPageState<HomePage> implements View{
             title: new Text(homeCtx.bannerList.elementAt(index).getTitle()),
           );
         });
-  }
-
-  @override
-  void preparedPage() {
-    presenter.getBannerList();
   }
 
 

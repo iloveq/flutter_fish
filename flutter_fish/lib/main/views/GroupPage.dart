@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/base/BasePage.dart';
 import 'package:flutter_fish/common/styles/AppColor.dart';
+import 'package:flutter_fish/common/widgets/StatusBarWidget.dart';
 import 'package:flutter_fish/group/MyFollowedPage.dart';
 import 'package:flutter_fish/group/RecommendGroupPage.dart';
 
@@ -9,7 +11,7 @@ class GroupPage extends StatefulWidget {
   State<StatefulWidget> createState() => GroupState();
 }
 
-class GroupState extends State<GroupPage> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin  {
+class GroupState extends LoadingPageState<GroupPage> with SingleTickerProviderStateMixin {
 
   TabController tabBarController;
   var tabBar;
@@ -34,18 +36,22 @@ class GroupState extends State<GroupPage> with SingleTickerProviderStateMixin,Au
     );
   }
 
+
+  @override
+  void preparedPage() {
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Column(
-      children: <Widget>[Container(
-          child: new Padding(
-            padding: new EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: tabBar,
-          )
-      ),
-      Expanded(
-          child: tabBarView
-      )],
+      children: <Widget>[
+        StatusBarWidget.get(),
+        tabBar,
+        Expanded(
+            child: tabBarView
+        )
+      ],
     );
   }
 
@@ -55,6 +61,5 @@ class GroupState extends State<GroupPage> with SingleTickerProviderStateMixin,Au
     tabBarController.dispose();
   }
 
-  @override
-  bool get wantKeepAlive => true;
+
 }

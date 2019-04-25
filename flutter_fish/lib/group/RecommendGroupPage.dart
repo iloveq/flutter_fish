@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/base/BasePage.dart';
 
 class RecommendGroupPage extends StatefulWidget{
   @override
@@ -6,16 +7,21 @@ class RecommendGroupPage extends StatefulWidget{
 }
 
 
-class RecommendGroupPageState extends State<RecommendGroupPage> with AutomaticKeepAliveClientMixin {
+class RecommendGroupPageState extends LoadingPageState<RecommendGroupPage>{
+
+  @override
+  void preparedPage() {
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Center(
       child: new Text('RecommendGroupPage'),
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+
+
 
 }

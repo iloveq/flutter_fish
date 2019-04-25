@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fish/common/base/BasePage.dart';
 
 class MessagePage extends StatefulWidget{
   @override
@@ -6,16 +7,21 @@ class MessagePage extends StatefulWidget{
 }
 
 
-class MessageState extends State<MessagePage> with AutomaticKeepAliveClientMixin {
+class MessageState extends LoadingPageState<MessagePage> {
+
+  @override
+  void preparedPage() {
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Center(
       child: new Text('MessagePage'),
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+
+
 
 }
