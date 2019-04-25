@@ -6,24 +6,32 @@ import 'package:flutter_fish/common/mvp/ILoadingView.dart';
 import 'package:flutter_fish/common/utils/ToastUtils.dart';
 import 'package:flutter_fish/common/widgets/LoadingDialog.dart';
 
-/// tree :   State => BaseState => AliveBaseState => PageState => LoadingPageState
-///                                                            => LoadingListPageState
+/// tree :   State => BaseState => BaseStatePage => AlivePageState => PageState => LoadingPageState
+///                                                                             => LoadingListPageState
 ///
 ///
 /// alive useless just make the child object override fun (bool get wantKeepAlive => false)
 
+
+/// widget
 abstract class BaseState<T extends StatefulWidget> extends State<T>{
 
 }
 
-class AliveBaseState<T extends StatefulWidget> extends BaseState<T> with AutomaticKeepAliveClientMixin{
+/// page
+abstract class BaseStatePage<T extends StatefulWidget> extends State<T>{
+
+}
+
+/// AlivePageState a impl of AutomaticKeepAliveClientMixin
+class AlivePageState<T extends StatefulWidget> extends BaseStatePage<T> with AutomaticKeepAliveClientMixin{
 
   @override
   bool get wantKeepAlive => true;
 
 }
 
-abstract class PageState<T extends StatefulWidget> extends AliveBaseState<T> {
+abstract class PageState<T extends StatefulWidget> extends AlivePageState<T> {
 
   bool _isPrepared = false;
 
