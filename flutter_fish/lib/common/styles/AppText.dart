@@ -12,7 +12,7 @@ class AppText{
   );
 
   static const middleSubText = TextStyle(
-    color: AppColor.subTextBlack,
+    color: AppColor.textDarkGray,
     fontSize: middleSize,
   );
 
