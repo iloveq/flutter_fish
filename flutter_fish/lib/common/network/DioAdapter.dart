@@ -9,6 +9,7 @@ import 'package:flutter_fish/common/core/RequestCtx.dart';
 class DioAdapter implements HAdapter{
 
   Dio _dio;
+  bool _isLoadedOption = false;
 
   DioAdapter() {
     _dio = new Dio();
@@ -19,16 +20,20 @@ class DioAdapter implements HAdapter{
 
     Future<Response<dynamic>> response;
 
-    _dio.options = new BaseOptions(
-        connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
-        contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
-        responseType: ctx.responseType == null ? ResponseType.plain : ctx.responseType,
-        validateStatus: (status) {
-          return status >= 200 && status < 300 || status == 304;
-        }
-    );
+    if(!_isLoadedOption){
+      _dio.options = new BaseOptions(
+          connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+          receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+          headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
+          contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
+          responseType: ctx.responseType == null ? ResponseType.plain : ctx.responseType,
+          validateStatus: (status) {
+            return status >= 200 && status < 300 || status == 304;
+          }
+      );
+      _isLoadedOption = true;
+    }
+
 
     if (ctx.transformer != null) {
       _dio.transformer = ctx.transformer;
