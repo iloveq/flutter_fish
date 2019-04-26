@@ -22,15 +22,8 @@ class HttpConstants{
 #### flutter项目中可以做的一些基础工作
 
 既然要开发 flutter 工程，我们必然要做一些基础工作。比如 mvp，网络请求，工具类，基础UI 等等的封装和抽取
-![common](https://upload-images.jianshu.io/upload_images/8886407-c9c62221b125e9bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-介绍一下上图：
-
-1:和业务线无关的 base/core/utils/mvp/network
-
-2:和技术选型无关的 mvp/core 也就是 mvp 和 网络封装(core 通过适配器可适配各种网络框架)
-
-#### 今天，我们只看 flutter 中 mvp 和 网络框架的封装及其使用：
+#### flutter 中 mvp 和 网络框架的封装及其使用：
 
 ##### 1：mvp 
 
