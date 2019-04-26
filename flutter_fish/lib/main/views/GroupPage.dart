@@ -11,7 +11,7 @@ class GroupPage extends StatefulWidget {
   State<StatefulWidget> createState() => GroupState();
 }
 
-class GroupState extends LoadingPageState<GroupPage> with SingleTickerProviderStateMixin {
+class GroupState extends BaseLoadingPageState<GroupPage> with SingleTickerProviderStateMixin {
 
   TabController tabBarController;
   var tabBar;

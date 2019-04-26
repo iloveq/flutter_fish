@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 /// **************************************************************/
 
-class HomePageState extends LoadingPageState<HomePage> implements View{
+class HomePageState extends BaseLoadingPageState<HomePage> implements View{
 
   HomePresenter presenter;
   HomeCtx homeCtx;

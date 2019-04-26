@@ -26,7 +26,8 @@ class HttpUtils{
     dynamic responseType,
     dynamic transformer,
     List<dynamic> interceptors,
-    dataCallback callback
+    dataCallback callback,
+    JsonParser parser
     }) {
     assert(_adapter!=null);
     try {
@@ -41,6 +42,7 @@ class HttpUtils{
           .setTransformer(transformer)
           .setInterceptors(interceptors)
           .setDataCallback(callback)
+          .setJsonParser(parser)
           .build();
       return _adapter.request(ctx);
       

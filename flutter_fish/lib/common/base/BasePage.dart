@@ -6,32 +6,22 @@ import 'package:flutter_fish/common/mvp/ILoadingView.dart';
 import 'package:flutter_fish/common/utils/ToastUtils.dart';
 import 'package:flutter_fish/common/widgets/LoadingDialog.dart';
 
-/// tree :   State => BaseState => BaseStatePage => AlivePageState => PageState => LoadingPageState
-///                                                                             => LoadingListPageState
-///
-///
-/// alive useless just make the child object override fun (bool get wantKeepAlive => false)
 
 
-/// widget
-abstract class BaseState<T extends StatefulWidget> extends State<T>{
+abstract class BaseState<T extends StatefulWidget> extends State<T>{}
 
-}
 
-/// page
-abstract class BaseStatePage<T extends StatefulWidget> extends State<T>{
+abstract class BasePageState<T extends StatefulWidget> extends State<T>{}
 
-}
 
-/// AlivePageState a impl of AutomaticKeepAliveClientMixin
-class AlivePageState<T extends StatefulWidget> extends BaseStatePage<T> with AutomaticKeepAliveClientMixin{
-
+class BaseKeepAlivePageState<T extends StatefulWidget> extends BasePageState<T> with AutomaticKeepAliveClientMixin{
   @override
   bool get wantKeepAlive => true;
-
 }
 
-abstract class PageState<T extends StatefulWidget> extends AlivePageState<T> {
+
+/// 如果不想 keep alive 要 重写 bool get wantKeepAlive => false;
+abstract class BaseLoadingPageState<T extends StatefulWidget> extends BaseKeepAlivePageState<T> implements ILoadingView {
 
   bool _isPrepared = false;
 
@@ -53,15 +43,8 @@ abstract class PageState<T extends StatefulWidget> extends AlivePageState<T> {
     super.dispose();
   }
 
-  /// to init once ,use timer make build completed to avoid dialog can get context
+  ///  初始化一次 => 用于 presenter 请求网络数据后 调用 show dialog 拿不到合适的 context 报错
   void preparedPage();
-
-}
-
-///*****************************************************/
-
-abstract class LoadingPageState<T extends StatefulWidget> extends PageState<T>
-    implements ILoadingView {
 
   @override
   void reload() {}
@@ -81,7 +64,7 @@ abstract class LoadingPageState<T extends StatefulWidget> extends PageState<T>
 
   @override
   void showLoading({String msg}) {
-    /// make dialog split from build that avoid to much dependence of a simple page
+    /// 把 dialog 的 show 从 普通页面里分离
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
@@ -96,9 +79,9 @@ abstract class LoadingPageState<T extends StatefulWidget> extends PageState<T>
 
   @override
   void closeLoading() {
-    /// must dialog be showed , if not can make page to pop
+    /// 必须和 showLoading 方法配对使用 ，避免 pop 当前页面
     Navigator.pop(context);
   }
 
-
 }
+

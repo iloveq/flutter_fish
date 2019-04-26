@@ -7,7 +7,7 @@ class MinePage extends StatefulWidget{
 }
 
 
-class MineState extends LoadingPageState<MinePage> {
+class MineState extends BaseLoadingPageState<MinePage> {
 
   @override
   void preparedPage() {

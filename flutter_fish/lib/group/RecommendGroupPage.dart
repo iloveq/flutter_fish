@@ -7,7 +7,7 @@ class RecommendGroupPage extends StatefulWidget{
 }
 
 
-class RecommendGroupPageState extends LoadingPageState<RecommendGroupPage>{
+class RecommendGroupPageState extends BaseLoadingPageState<RecommendGroupPage>{
 
   @override
   void preparedPage() {

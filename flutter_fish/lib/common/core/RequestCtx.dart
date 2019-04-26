@@ -22,6 +22,7 @@ class RequestCtx {
   dynamic _transformer;
   List<dynamic> _interceptors;
   dataCallback _callback;
+  JsonParser _parser;
 
   RequestCtx(final Builder builder) {
     this._url = builder.url;
@@ -36,6 +37,7 @@ class RequestCtx {
     this._transformer = builder.transformer;
     this._interceptors = builder.interceptors;
     this._callback = builder.callback;
+    this._parser = builder.parser;
   }
 
   String get url => _url;
@@ -62,6 +64,8 @@ class RequestCtx {
 
   dataCallback get callback => _callback;
 
+  JsonParser get parser => _parser;
+
 }
 
 class Builder {
@@ -77,6 +81,7 @@ class Builder {
   dynamic transformer;
   List<dynamic> interceptors;
   dataCallback callback;
+  JsonParser parser;
 
   Builder setUrl(String url) {
     this.url = url;
@@ -138,7 +143,14 @@ class Builder {
     return this;
   }
 
+  Builder setJsonParser(JsonParser parser) {
+    this.parser = parser;
+    return this;
+  }
+
   RequestCtx build() {
     return new RequestCtx(this);
   }
+
+
 }

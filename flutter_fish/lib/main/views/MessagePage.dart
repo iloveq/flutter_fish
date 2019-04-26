@@ -7,7 +7,7 @@ class MessagePage extends StatefulWidget{
 }
 
 
-class MessageState extends LoadingPageState<MessagePage> {
+class MessageState extends BaseLoadingPageState<MessagePage> {
 
   @override
   void preparedPage() {

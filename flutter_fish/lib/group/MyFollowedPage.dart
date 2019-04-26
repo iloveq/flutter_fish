@@ -7,7 +7,7 @@ class MyFollowedPage extends StatefulWidget {
 }
 
 
-class MyFollowedPageState extends LoadingPageState<MyFollowedPage>{
+class MyFollowedPageState extends BaseLoadingPageState<MyFollowedPage>{
 
   @override
   void preparedPage() {

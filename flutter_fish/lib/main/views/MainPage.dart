@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() => MainPageState();
 }
 
-class MainPageState extends PageState<MainPage> {
+class MainPageState extends BasePageState<MainPage> {
 
   int tabIndex = 0;
   var pageController = PageController(initialPage: 0);
@@ -54,11 +54,7 @@ class MainPageState extends PageState<MainPage> {
 
 
   @override
-  void preparedPage() {}
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return new Scaffold(
       body: PageView(
           physics: NeverScrollableScrollPhysics(),
