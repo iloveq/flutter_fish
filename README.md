@@ -58,8 +58,7 @@ class HomePresenter extends BasePresenter<View> implements Presenter {
     HttpProxy.getBannerList((int state, dynamic data) {
       if (state == HState.success) {
         view.closeLoading();
-        List<Banner> bannerList = new GetBannerListJsonParser().parse(data);
-        view.renderPage(bannerList);
+        view.renderPage(data);
       } else {
         view.closeLoading();
         view.showError(data.toString());
@@ -244,7 +243,8 @@ class HttpUtils{
     Map<String, dynamic> body,
     Transformer transformer,
     List<Interceptor> interceptors,
-    dataCallback callback
+    dataCallback callback,
+    JsonParser parser
     }) {
     assert(_adapter!=null);//没有做adapter的实现是无法去请求的 asset 很强大
     try {
@@ -259,6 +259,7 @@ class HttpUtils{
           .setTransformer(transformer)
           .setInterceptors(interceptors)
           .setDataCallback(callback)
+          .setJsonParser(parser)
           .build();
       return _adapter.request(ctx);
       
@@ -289,6 +290,7 @@ DioAdapter.dart 这里先写一个 dio 的适配器，dynamic 的好处大家可
 class DioAdapter implements HAdapter{
 
   Dio _dio;
+  bool _isLoadedOption = false;
 
   DioAdapter() {
     _dio = new Dio();
@@ -299,16 +301,20 @@ class DioAdapter implements HAdapter{
 
     Future<Response<dynamic>> response;
 
-    _dio.options = new BaseOptions(
-        connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
-        headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
-        contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
-        responseType: ctx.responseType == null ? ResponseType.json : ctx.responseType,
-        validateStatus: (status) {
-          return status >= 200 && status < 300 || status == 304;
-        }
-    );
+    if(!_isLoadedOption){
+      _dio.options = new BaseOptions(
+          connectTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+          receiveTimeout: ctx.timeout == null ? HConstants.timeout : ctx.timeout,
+          headers: ctx.headerMap==null?{HttpHeaders.userAgentHeader: "dio-2.1.0"}:ctx.headerMap,
+          contentType: ctx.contentType == null ? ContentType.json : ctx.contentType,
+          responseType: ctx.responseType == null ? ResponseType.plain : ctx.responseType,
+          validateStatus: (status) {
+            return status >= 200 && status < 300 || status == 304;
+          }
+      );
+      _isLoadedOption = true;
+    }
+
 
     if (ctx.transformer != null) {
       _dio.transformer = ctx.transformer;
@@ -333,13 +339,15 @@ class DioAdapter implements HAdapter{
         response = _dio.get(url);
     }
 
-    if(ctx.callback!=null){
+    if(ctx.callback!=null&&ctx.parser!=null){
       response.then((response){
         // can by some response.statusCode to make some regex
-        ctx.callback(HState.success,response.data);
+        ctx.callback(HState.success,ctx.parser.parse(response.data));
       }).catchError((e){
         ctx.callback(HState.fail,e);
       });
+    }else{
+      throw Exception('callback must be with a parser');
     }
 
     return response;
