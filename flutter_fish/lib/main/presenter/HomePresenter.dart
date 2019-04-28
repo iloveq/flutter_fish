@@ -1,5 +1,7 @@
-import 'package:flutter_fish/common/core/HInterface.dart';
-import 'package:flutter_fish/common/mvp/BasePresenter.dart';
+
+import 'package:flutter_fish/common/base/Mvp.dart';
+import 'package:flutter_fish/common/network/core/HInterface.dart';
+
 import 'package:flutter_fish/main/contract/HomeContract.dart';
 import 'package:flutter_fish/main/model/HttpProxy.dart';
 

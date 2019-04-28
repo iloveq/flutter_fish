@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_fish/common/core/HInterface.dart';
+
+import 'package:flutter_fish/common/network/core/HInterface.dart';
 import 'package:flutter_fish/main/model/bean/Banner.dart';
 
 class GetBannerListJsonParser extends JsonParser{

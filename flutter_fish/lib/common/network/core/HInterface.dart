@@ -11,10 +11,10 @@ abstract class HAdapter {
 }
 
 // a transformer
-typedef transformer = String Function(String original);
+typedef Transformer = String Function(String original);
 
 // a callback
-typedef dataCallback = Function(int state, dynamic data);
+typedef DataCallback = Function(int state, dynamic data);
 
 class HState{
   static final int success = 1;//成功

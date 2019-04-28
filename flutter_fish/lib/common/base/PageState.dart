@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/mvp/ILoadingView.dart';
+import 'package:flutter_fish/common/base/Mvp.dart';
+
 import 'package:flutter_fish/common/utils/ToastUtils.dart';
 import 'package:flutter_fish/common/widgets/LoadingDialog.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/BasePage.dart';
+import 'package:flutter_fish/common/base/PageState.dart';
 
 class MinePage extends StatefulWidget{
   @override

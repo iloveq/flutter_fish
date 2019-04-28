@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_fish/common/core/HInterface.dart';
-import 'package:flutter_fish/common/core/HttpUtils.dart';
-import 'package:flutter_fish/common/core/RequestCtx.dart';
+
+import 'core/HInterface.dart';
+import 'core/HttpUtils.dart';
+import 'core/RequestCtx.dart';
+
 
 class DioAdapter implements HAdapter{
 

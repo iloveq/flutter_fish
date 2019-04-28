@@ -21,7 +21,7 @@ class RequestCtx {
   int _retryCount;
   dynamic _transformer;
   List<dynamic> _interceptors;
-  dataCallback _callback;
+  DataCallback _callback;
   JsonParser _parser;
 
   RequestCtx(final Builder builder) {
@@ -62,7 +62,7 @@ class RequestCtx {
 
   List<dynamic> get interceptors => _interceptors;
 
-  dataCallback get callback => _callback;
+  DataCallback get callback => _callback;
 
   JsonParser get parser => _parser;
 
@@ -80,7 +80,7 @@ class Builder {
   int retryCount;
   dynamic transformer;
   List<dynamic> interceptors;
-  dataCallback callback;
+  DataCallback callback;
   JsonParser parser;
 
   Builder setUrl(String url) {
@@ -138,7 +138,7 @@ class Builder {
     return this;
   }
 
-  Builder setDataCallback(dataCallback callback) {
+  Builder setDataCallback(DataCallback callback) {
     this.callback = callback;
     return this;
   }

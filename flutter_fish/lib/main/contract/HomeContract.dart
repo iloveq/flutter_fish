@@ -1,5 +1,6 @@
-import 'package:flutter_fish/common/mvp/ILoadingView.dart';
-import 'package:flutter_fish/common/mvp/IPresenter.dart';
+
+
+import 'package:flutter_fish/common/base/Mvp.dart';
 
 class View extends ILoadingView{
 

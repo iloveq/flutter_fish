@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/BasePage.dart';
+import 'package:flutter_fish/common/base/PageState.dart';
 import 'package:flutter_fish/common/utils/ImageUtils.dart';
 import 'package:flutter_fish/main/views/GroupPage.dart';
 import 'package:flutter_fish/main/views/HomePage.dart';

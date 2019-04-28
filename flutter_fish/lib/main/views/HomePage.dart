@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/BasePage.dart';
+import 'package:flutter_fish/common/base/PageState.dart';
 import 'package:flutter_fish/main/contract/HomeContract.dart';
 import 'package:flutter_fish/main/model/wrapper/HomeCtx.dart';
 import 'package:flutter_fish/main/presenter/HomePresenter.dart';

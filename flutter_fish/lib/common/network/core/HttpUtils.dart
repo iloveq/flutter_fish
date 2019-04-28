@@ -26,7 +26,7 @@ class HttpUtils{
     dynamic responseType,
     dynamic transformer,
     List<dynamic> interceptors,
-    dataCallback callback,
+    DataCallback callback,
     JsonParser parser
     }) {
     assert(_adapter!=null);
