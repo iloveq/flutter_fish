@@ -8,8 +8,8 @@ class GetBannerListJsonParser extends JsonParser{
   @override
   parse(String str) {
     List<Banner> list = [];
-    List<dynamic> jsonArray = JsonCodec().decode(str);
-    for (Map map in jsonArray) {
+    Map map = JsonCodec().decode(str);
+    for (Map map in map["bannerList"]) {
       var banner = new Banner(map["title"], map["iconUrl"]);
       list.add(banner);
     }
