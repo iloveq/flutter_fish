@@ -335,15 +335,16 @@ class DioAdapter implements HAdapter{
         response = _dio.get(url);
     }
 
-    if(ctx.callback!=null&&ctx.parser!=null){
+    if(ctx.callback!=null){
+      if(ctx.parser == null){
+        ctx.callback(HState.fail,Exception('callback must be with a parser'));
+      }
       response.then((response){
         // can by some response.statusCode to make some regex
         ctx.callback(HState.success,ctx.parser.parse(response.data));
       }).catchError((e){
         ctx.callback(HState.fail,e);
       });
-    }else{
-      throw Exception('callback must be with a parser');
     }
 
     return response;
