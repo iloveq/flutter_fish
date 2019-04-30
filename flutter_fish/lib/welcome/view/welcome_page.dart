@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_fish/common/utils/image_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../thrid_libs_manager.dart';
+
 class WelcomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => WelcomePageState();
@@ -17,7 +19,7 @@ class WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     /// 初始化屏幕适配
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    ThirdLibsManager.get().adapterScreen(context);
     return new Scaffold(
         body:loadImageFullScreen(context,'images/welcome/init_cover.png')
     );

@@ -1,4 +1,6 @@
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'common/network/dio_adapter.dart';
 import 'package:flutter_fish/common/network/http_utils.dart';
 import 'common/utils/log_utils.dart';
@@ -8,6 +10,8 @@ class TDelegate{
   void setup(){}
 
   void release(){}
+
+  void adapterScreen(context){}
 
 }
 
@@ -29,6 +33,10 @@ class ThirdLibsManager implements TDelegate{
   void setup() {
      HttpUtils.get().setAdapter(DioAdapter());
      Log.setEnable(true);
+  }
+
+  void adapterScreen(context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
   }
  
 
