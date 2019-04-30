@@ -1,4 +1,4 @@
-import 'package:flutter_fish/main/model/bean/Banner.dart';
+import 'package:flutter_fish/main/model/bean/banner.dart';
 
 class HomeCtx {
 

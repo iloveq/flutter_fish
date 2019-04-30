@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/PageState.dart';
-import 'package:flutter_fish/common/utils/ImageUtils.dart';
-import 'package:flutter_fish/main/views/GroupPage.dart';
-import 'package:flutter_fish/main/views/HomePage.dart';
-import 'package:flutter_fish/main/views/MessagePage.dart';
-import 'package:flutter_fish/main/views/MinePage.dart';
+import 'package:flutter_fish/common/base/page_state.dart';
+import 'package:flutter_fish/common/utils/image_utils.dart';
+import 'package:flutter_fish/main/views/group_page.dart';
+import 'package:flutter_fish/main/views/home_page.dart';
+import 'package:flutter_fish/main/views/message_page.dart';
+import 'package:flutter_fish/main/views/mine_page.dart';
 
 
 class MainPage extends StatefulWidget {

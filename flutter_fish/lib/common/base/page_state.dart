@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/Mvp.dart';
+import 'package:flutter_fish/common/base/mvp.dart';
 
-import 'package:flutter_fish/common/utils/ToastUtils.dart';
-import 'package:flutter_fish/common/widgets/LoadingDialog.dart';
+import 'package:flutter_fish/common/utils/toast_utils.dart';
+import 'package:flutter_fish/common/widgets/loading_dialog.dart';
 
 
 

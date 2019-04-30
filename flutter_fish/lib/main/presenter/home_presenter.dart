@@ -1,9 +1,8 @@
 
-import 'package:flutter_fish/common/base/Mvp.dart';
-import 'package:flutter_fish/common/network/core/HInterface.dart';
-
-import 'package:flutter_fish/main/contract/HomeContract.dart';
-import 'package:flutter_fish/main/model/HttpProxy.dart';
+import 'package:flutter_fish/common/base/mvp.dart';
+import 'package:flutter_fish/common/network/http_utils.dart';
+import 'package:flutter_fish/main/contract/home_contract.dart';
+import 'package:flutter_fish/main/model/http_proxy.dart';
 
 class HomePresenter extends BasePresenter<View> implements Presenter {
 

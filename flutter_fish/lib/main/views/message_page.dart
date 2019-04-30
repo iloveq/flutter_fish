@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/PageState.dart';
+import 'package:flutter_fish/common/base/page_state.dart';
 
 class MessagePage extends StatefulWidget{
   @override

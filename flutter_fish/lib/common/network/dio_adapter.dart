@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-import 'core/HInterface.dart';
-import 'core/HttpUtils.dart';
-import 'core/RequestCtx.dart';
+
+import 'package:flutter_fish/common/network/http_utils.dart';
+
 
 
 class DioAdapter implements HAdapter{

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/styles/AppText.dart';
+import 'package:flutter_fish/common/styles/app_text.dart';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 

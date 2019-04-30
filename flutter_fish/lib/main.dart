@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fish/ThridLibsManager.dart';
-import 'package:flutter_fish/routers/Routers.dart';
+import 'package:flutter_fish/thrid_libs_manager.dart';
+import 'package:flutter_fish/router/my_router.dart';
 
 
 void main() {

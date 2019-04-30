@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'AppColor.dart';
+import 'app_color.dart';
 
 class AppText{
 

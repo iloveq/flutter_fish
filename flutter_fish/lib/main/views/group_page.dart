@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/PageState.dart';
-import 'package:flutter_fish/common/styles/AppColor.dart';
-import 'package:flutter_fish/common/widgets/StatusBarWidget.dart';
-import 'package:flutter_fish/group/MyFollowedPage.dart';
-import 'package:flutter_fish/group/RecommendGroupPage.dart';
+import 'package:flutter_fish/common/base/page_state.dart';
+import 'package:flutter_fish/common/styles/app_color.dart';
+import 'package:flutter_fish/common/widgets/statusbar_widget.dart';
+import 'package:flutter_fish/group/my_followed_page.dart';
+import 'package:flutter_fish/group/recommend_group_page.dart';
 
 class GroupPage extends StatefulWidget {
   @override

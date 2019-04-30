@@ -1,7 +1,7 @@
 
-import 'common/network/DioAdapter.dart';
-import 'common/network/core/HttpUtils.dart';
-import 'common/utils/LogUtils.dart';
+import 'common/network/dio_adapter.dart';
+import 'package:flutter_fish/common/network/http_utils.dart';
+import 'common/utils/log_utils.dart';
 
 class TDelegate{
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/common/base/PageState.dart';
-import 'package:flutter_fish/main/contract/HomeContract.dart';
-import 'package:flutter_fish/main/model/wrapper/HomeCtx.dart';
-import 'package:flutter_fish/main/presenter/HomePresenter.dart';
+import 'package:flutter_fish/common/base/page_state.dart';
+import 'package:flutter_fish/main/contract/home_contract.dart';
+import 'package:flutter_fish/main/model/wrapper/home_ctx.dart';
+import 'package:flutter_fish/main/presenter/home_presenter.dart';
 
 
 class HomePage extends StatefulWidget {

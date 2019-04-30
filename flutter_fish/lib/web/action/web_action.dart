@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_fish/web/view/MyWebPage.dart';
+import 'package:flutter_fish/web/view/my_web_page.dart';
 
 class EntryWebPageAction{
 

@@ -2,12 +2,11 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_fish/common/constants/HttpConstants.dart';
-import 'package:flutter_fish/common/network/core/HInterface.dart';
-import 'package:flutter_fish/common/network/core/HttpUtils.dart';
+import 'package:flutter_fish/common/constants/http_constants.dart';
+import 'package:flutter_fish/common/network/http_utils.dart';
 
 
-import 'jsonParser/GetBannerListJsonParser.dart';
+import 'jsonParser/banner_list_parser.dart';
 
 class HttpProxy {
 
