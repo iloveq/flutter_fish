@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+import 'http_utils.dart';
 
-import 'package:flutter_fish/common/network/http_utils.dart';
+
+
 
 
 

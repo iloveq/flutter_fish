@@ -2,8 +2,10 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'common/network/dio_adapter.dart';
-import 'package:flutter_fish/common/network/http_utils.dart';
+
+import 'common/network/http_utils.dart';
 import 'common/utils/log_utils.dart';
+import 'common/utils/toast_utils.dart';
 
 class TDelegate{
 
@@ -33,6 +35,7 @@ class ThirdLibsManager implements TDelegate{
   void setup() {
      HttpUtils.get().setAdapter(DioAdapter());
      Log.setEnable(true);
+     ToastUtils.setEnable(true);
   }
 
   void adapterScreen(context) {
