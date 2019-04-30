@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fish/common/utils/image_utils.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../thrid_libs_manager.dart';
+import '../../third_libs_manager.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
