@@ -4,6 +4,7 @@
 # Golisp https://github.com/woaigmz/Golisp 为闲鱼 flutter demo 提供 api
 first：安装 go ，go env， 配置 GOPATH 到 bashp ，在 xxx（GPPASH）下建 src，将 golisp 放置在 src 下 
 second：go run app.go
+
 third： 浏览器 localhost:2000/bannerList
 
 class HttpConstants{
