@@ -6,10 +6,6 @@ import 'package:dio/dio.dart';
 import 'http_utils.dart';
 
 
-
-
-
-
 class DioAdapter implements HAdapter{
 
   Dio _dio;
@@ -67,7 +63,8 @@ class DioAdapter implements HAdapter{
         ctx.callback(HState.fail,Exception('callback must be with a parser'));
       }
       response.then((response){
-        // can by some response.statusCode to make some regex
+        /// can by some response.statusCode to make some regex
+        /// if(response.data.code!=200){ctx.callback(HState.fail,response.data.msg)}else ...
         ctx.callback(HState.success,ctx.parser.parse(response.data));
       }).catchError((e){
         ctx.callback(HState.fail,e);
