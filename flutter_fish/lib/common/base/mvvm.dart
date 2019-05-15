@@ -1,27 +1,33 @@
-import 'package:path/path.dart';
 
-class BaseViewModel{
+/// 负责 view - action -> model  model - action -> view
+abstract class Action{
+
+}
+
+/// viewModel 实现 action 接口 通过 viewModel.xxxFun() 使用 action
+abstract class BaseViewModel implements Action {
+
+  BaseViewModel();
+
+  clear(){}
 
 }
 
 
-class ModelProvider<T extends BaseViewModel>{
+class ViewModelProvider<T extends BaseViewModel>{
 
   T _vm;
-  Map<int,T> _map = Map();
+  final Map<int,T> _vmStore = new Map();
 
-  ModelProvider(this._vm){
-    _map[_vm.hashCode] = _vm;
-  }
+  ViewModelProvider();
 
-  T get vm =>  _map[_vm];
+  T get vm =>  _vmStore[_vm];
 
-  of(Context ctx){
-
-  }
-
-  subscribe(){
-
+  of(dynamic widget,T vm){
+     if(_vmStore[vm.hashCode] !=null){
+       _vmStore[vm.hashCode].clear();
+     }
+     _vmStore[vm.hashCode]=vm;
   }
 
 }
