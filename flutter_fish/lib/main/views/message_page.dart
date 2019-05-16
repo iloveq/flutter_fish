@@ -31,7 +31,7 @@ class MessageState extends BaseLoadingPageState<MessagePage> {
     return new Center(
       child: GestureDetector(
         onTap: (){
-          vm.watcher.addEvent("111",(data){
+          vm.watcher.addEvent("setText",(data){
             this.text = data;
             this.setState(() {});
           });
