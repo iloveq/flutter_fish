@@ -25,6 +25,7 @@ dependencies:
   transparent_image: ^0.1.0
   fluttertoast: ^3.0.4
   flutter_screenutil: ^0.5.2
+  rxdart: ^0.22.0
 
 dev_dependencies:
   flutter_test:
