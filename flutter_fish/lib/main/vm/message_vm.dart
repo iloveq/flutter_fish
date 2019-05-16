@@ -9,7 +9,7 @@ class MessageViewModel extends BaseViewModel<MessageState> implements MessageEve
 
   @override
   setText() {
-    watcher.notify("111",222);
+    watcher.notify("111","666");
   }
 
 

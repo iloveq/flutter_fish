@@ -35,7 +35,9 @@ abstract class BaseViewModel<V> {
 
   Watcher _watcher;
 
-  BaseViewModel():this._watcher=new Watcher();
+  BaseViewModel(){
+    this._watcher=new Watcher();
+  }
 
   get watcher => this._watcher;
 

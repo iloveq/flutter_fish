@@ -11,30 +11,41 @@ class MessagePage extends StatefulWidget{
 
 class MessageState extends BaseLoadingPageState<MessagePage> {
 
-  var text = 'MessagePage';
+  var text = 'click it !';
   MessageViewModel vm;
 
   @override
+  void initState() {
+    super.initState();
+    ViewModelProvider().of(this,vm= MessageViewModel());
+  }
+
+  @override
   void preparedPage() {
-    vm = ViewModelProvider().of(this, MessageViewModel());
+
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return new Center(
-      child: new Text(text),
+      child: GestureDetector(
+        onTap: (){
+          vm.watcher.addEvent("111",(data){
+            this.text = data;
+            this.setState(() {});
+          });
+          vm.setText();
+        },
+        child: new Text(text),
+      ),
     );
   }
 
   @override
   void renderPage(Object o) {
     super.renderPage(o);
-    vm.watcher.add("111",(data){
-      this.text = data;
-      this.setState(() {});
-    });
-    vm.setText();
+
 
   }
 
