@@ -1,18 +1,18 @@
 
 /// 负责 view - event -> model  model - event -> view
 
-typedef onChange = Function(dynamic data);
+typedef event = Function(dynamic data);
 
 
 class Watcher{
 
-    Map<String,onChange> es;
+    Map<String,event> es;
 
     Watcher(){
       es = Map();
     }
 
-    addEvent(String tag,onChange event){
+    addEvent(String tag,event event){
        es[tag]=event;
     }
 
