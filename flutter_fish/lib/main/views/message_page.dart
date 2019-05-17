@@ -17,7 +17,7 @@ class MessageState extends BaseLoadingPageState<MessagePage> {
   @override
   void initState() {
     super.initState();
-    ViewModelProvider().of(this,vm= MessageViewModel());
+    ViewModelProvider.of(this,vm= MessageViewModel());
   }
 
   @override
@@ -41,14 +41,6 @@ class MessageState extends BaseLoadingPageState<MessagePage> {
       ),
     );
   }
-
-  @override
-  void renderPage(Object o) {
-    super.renderPage(o);
-
-
-  }
-
 
 
 }
