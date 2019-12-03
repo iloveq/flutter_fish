@@ -31,6 +31,9 @@ class HomePageState extends BaseLoadingPageState<HomePage> implements View{
   }
 
   @override
+  bool get wantKeepAlive => false;
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return new ListView.builder(

@@ -9,8 +9,8 @@ class GetBannerListJsonParser extends JsonParser{
   @override
   parse(String str) {
     List<Banner> list = [];
-    Map map = JsonCodec().decode(str);
-    for (Map map in map["bannerList"]) {
+    List bannerList = JsonCodec().decode(str);
+    for (Map map in bannerList) {
       var banner = new Banner(map["title"], map["iconUrl"]);
       list.add(banner);
     }
